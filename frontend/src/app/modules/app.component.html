@@ -1,14 +1,28 @@
-<div *ngIf="user.username != ''">
-  
-</div>
-<div class="login" *ngIf="user.username == ''">
-  <button
-    class="login-button"
-    mat-raised-button
-    color="primary"
-    routerLink="login"
-  >
-    Login
-  </button>
-</div>
+<ng-container *ngIf="user.username != ''">
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      *ngFor="let link of navLinks"
+      [className]="user.groups.includes(link.group) ? 'mat-nav' : 'mat-nav-disabled'"
+      [routerLink]="link.path"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [active]="rla.isActive"
+    >
+      {{ link.label }}
+    </a>
+  </nav>
+</ng-container>
+<ng-container *ngIf="user.username == ''">
+  <div class="login">
+    <button
+      class="login-button"
+      mat-raised-button
+      color="primary"
+      routerLink="login"
+    >
+      Login
+    </button>
+  </div>
+</ng-container>
 <router-outlet style="text-align: center;" *ngIf="!isIframe"></router-outlet>

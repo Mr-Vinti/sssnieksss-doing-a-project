@@ -29,6 +29,24 @@ export class AppComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
   user: User;
 
+  navLinks = [
+    {
+      path: 'admin',
+      label: 'Admin',
+      group: 'Admin',
+    },
+    {
+      path: 'secretary',
+      label: 'Secretary',
+      group: 'Secretary'
+    },
+    {
+      path: 'student',
+      label: 'Student',
+      group: 'Student'
+    },
+  ]
+
   constructor(private broadcastService: BroadcastService,
     private authService: MsalService,
     private userService: UserService) {
