@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /student-portal
+    
+azure:
+  activedirectory:
+    client-id: TODO
+    client-secret: "TODO"
+    user-group:
+      allowed-groups:
+      - TODO
+      
+# Actuator Properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - loggers
+        - health
+        - info
+        - metrics
+        - env
+  endpoint:
+    env:
+      enabled: true
+    loggers:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
