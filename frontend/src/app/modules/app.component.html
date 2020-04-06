@@ -5,19 +5,25 @@
         <img class="logo" src="../../assets/logo.png" />
       </button>
     </div>
-    <div class="user-button">
-      <button mat-icon-button aria-label="user menu" [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <span>{{ user.username }} </span>
+    <ng-container *ngIf="user.username != ''">
+      <div class="user-button">
+        <button
+          mat-icon-button
+          aria-label="user menu"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>account_circle</mat-icon>
         </button>
-        <button mat-menu-item>
-          <span>{{ user.groups[0] }} </span>
-        </button>
-      </mat-menu>
-    </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>{{ user.username }} </span>
+          </button>
+          <button mat-menu-item>
+            <span>{{ user.groups[0] }} </span>
+          </button>
+        </mat-menu>
+      </div>
+    </ng-container>
   </mat-toolbar-row>
 </mat-toolbar>
 
