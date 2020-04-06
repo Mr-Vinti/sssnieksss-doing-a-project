@@ -18,10 +18,14 @@ import { Routes, RouterModule } from "@angular/router";
 import { MsalGuard } from "@azure/msal-angular";
 import { LoginComponent } from "./login/login.component";
 import { AdminComponent } from "./admin/admin.component";
+import { SecretaryComponent } from "./secretary/secretary.component";
+import { StudentComponent } from "./student/student.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent, canActivate: [MsalGuard] },
   { path: "admin", component: AdminComponent, canActivate: [MsalGuard] },
+  { path: "secretary", component: SecretaryComponent, canActivate: [MsalGuard] },
+  { path: "student", component: StudentComponent, canActivate: [MsalGuard] },
 ];
 
 @NgModule({
@@ -30,3 +34,4 @@ const routes: Routes = [
   providers: [],
 })
 export class AppRoutingModule {}
+

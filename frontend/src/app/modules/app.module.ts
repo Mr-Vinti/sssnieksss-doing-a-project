@@ -34,8 +34,11 @@ import { AppRoutingModule } from "./app-routing.module";
 import { CustomHttpInterceptor } from "../core/http/custom-http-interceptor";
 import { AdminModule } from "./admin/admin.module";
 
-import { MatButtonModule } from "@angular/material/button"
+import { MatButtonModule } from "@angular/material/button";
+import { MatTabsModule } from "@angular/material/tabs";
 import { LoginModule } from "./login/login.module";
+import { SecretaryModule } from "./secretary/secretary.module";
+import { StudentModule } from "./student/student.module";
 
 export function loggerCallback(logLevel, message, piiEnabled) {
   console.log("client logging" + message);
@@ -54,8 +57,10 @@ export const protectedResourceMap: [string, string[]][] = [
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    AdminModule,
     LoginModule,
+    AdminModule,
+    SecretaryModule,
+    StudentModule,
     MsalModule.forRoot({
       clientID: "06067589-5dc1-4e8e-a565-7d4e370ac6df",
       authority:
@@ -74,6 +79,7 @@ export const protectedResourceMap: [string, string[]][] = [
       piiLoggingEnabled: true,
     }),
     MatButtonModule,
+    MatTabsModule,
   ],
   bootstrap: [AppComponent],
   providers: [
