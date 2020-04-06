@@ -11,7 +11,7 @@ import { UserService } from './user.service';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [CommonModule],
   providers:[TestserviceService, UserService]

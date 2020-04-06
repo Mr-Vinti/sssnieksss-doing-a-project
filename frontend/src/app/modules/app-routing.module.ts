@@ -13,22 +13,20 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ModuleOneComponent } from './module-one/module-one.component';
-import { MsalGuard } from '@azure/msal-angular';
-import { AppComponent } from './app.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { MsalGuard } from "@azure/msal-angular";
+import { LoginComponent } from "./login/login.component";
+import { AdminComponent } from "./admin/admin.component";
 
 const routes: Routes = [
-  {path: 'module-one', 
-    component: ModuleOneComponent,
-    canActivate: [MsalGuard]
-  }
+  { path: "login", component: LoginComponent, canActivate: [MsalGuard] },
+  { path: "admin", component: AdminComponent, canActivate: [MsalGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

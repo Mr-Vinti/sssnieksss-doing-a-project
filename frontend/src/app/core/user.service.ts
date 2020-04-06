@@ -38,7 +38,6 @@ export class UserService {
         .then((response) => {
           this.user.groups = response.value.map(member => member.displayName);
           this.user.username = this.authService.getUser().name;
-          console.log(this.user);
         }, (error) => {
           console.log('getMemberRoles() - error');
         });

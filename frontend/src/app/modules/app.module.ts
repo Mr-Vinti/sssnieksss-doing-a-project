@@ -10,57 +10,59 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 //Microsoft
 import { MsalModule } from "@azure/msal-angular";
-import { LogLevel } from 'msal';
+import { LogLevel } from "msal";
 
 //external angular components,modules,directives
-import { ModuleOneModule } from '../modules/module-one/module-one.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
 //core Module
-import { CoreModule } from '../core/core.module';
+import { CoreModule } from "../core/core.module";
 
 //shared Module
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from "../shared/shared.module";
 
 //routes
-import { AppRoutingModule } from './app-routing.module';
-import { CustomHttpInterceptor } from '../core/http/custom-http-interceptor';
+import { AppRoutingModule } from "./app-routing.module";
+import { CustomHttpInterceptor } from "../core/http/custom-http-interceptor";
+import { AdminModule } from "./admin/admin.module";
+
+import { MatButtonModule } from "@angular/material/button"
+import { LoginModule } from "./login/login.module";
 
 export function loggerCallback(logLevel, message, piiEnabled) {
   console.log("client logging" + message);
 }
 export const protectedResourceMap: [string, string[]][] = [
-  ['https://graph.microsoft.com/v1.0/me', ['user.read']],
+  ["https://graph.microsoft.com/v1.0/me", ["user.read"]],
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,	
+    HttpClientModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    ModuleOneModule,
+    AdminModule,
+    LoginModule,
     MsalModule.forRoot({
-      clientID: '06067589-5dc1-4e8e-a565-7d4e370ac6df',
-      authority: "https://login.microsoftonline.com/679145ad-f827-42d8-b45e-720324e5d2a2/",
+      clientID: "06067589-5dc1-4e8e-a565-7d4e370ac6df",
+      authority:
+        "https://login.microsoftonline.com/679145ad-f827-42d8-b45e-720324e5d2a2/",
       validateAuthority: true,
       redirectUri: window.location.origin + environment.baseHref,
-      cacheLocation: 'localStorage',
+      cacheLocation: "localStorage",
       postLogoutRedirectUri: window.location.origin + environment.baseHref,
       navigateToLoginRequestUrl: false,
       popUp: false,
@@ -69,11 +71,17 @@ export const protectedResourceMap: [string, string[]][] = [
       logger: loggerCallback,
       correlationId: "1000",
       level: LogLevel.Info,
-      piiLoggingEnabled: true
-  })],
+      piiLoggingEnabled: true,
+    }),
+    MatButtonModule,
+  ],
   bootstrap: [AppComponent],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true}
-  ]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

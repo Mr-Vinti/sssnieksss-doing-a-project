@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isIframe: boolean;
   private subscription: Subscription;
   loggedIn: boolean;
+  user: User;
 
   constructor(private broadcastService: BroadcastService,
     private authService: MsalService,
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
       (payload) => {
         console.log("login success " + JSON.stringify(payload));
       });
+    this.user = this.userService.getUser();
   }
 
   ngOnDestroy() {
@@ -48,4 +50,5 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
 }

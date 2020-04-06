@@ -1,9 +1,14 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+<div *ngIf="user.username != ''">
+  
 </div>
-<br />
-<a routerLink="module-one">View Module One</a>
-<br/>
-<router-outlet style="text-align:center;" *ngIf="!isIframe"></router-outlet>
+<div class="login" *ngIf="user.username == ''">
+  <button
+    class="login-button"
+    mat-raised-button
+    color="primary"
+    routerLink="login"
+  >
+    Login
+  </button>
+</div>
+<router-outlet style="text-align: center;" *ngIf="!isIframe"></router-outlet>
