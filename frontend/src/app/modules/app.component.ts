@@ -10,20 +10,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BroadcastService, MsalService } from '@azure/msal-angular'
-import { Subscriber, Subscription } from 'rxjs';
-import { UserService } from '../core/user.service';
-import { User } from '../shared/models/user';
-
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { BroadcastService, MsalService } from "@azure/msal-angular";
+import { Subscriber, Subscription } from "rxjs";
+import { UserService } from "../core/user.service";
+import { User } from "../shared/models/user";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Template app!';
+  title = "Template app!";
   isIframe: boolean;
   private subscription: Subscription;
   loggedIn: boolean;
@@ -31,33 +30,37 @@ export class AppComponent implements OnInit, OnDestroy {
 
   navLinks = [
     {
-      path: 'admin',
-      label: 'Admin',
-      group: 'Admin',
+      path: "admin",
+      label: "Admin",
+      group: "Admin",
     },
     {
-      path: 'secretary',
-      label: 'Secretary',
-      group: 'Secretary'
+      path: "secretary",
+      label: "Secretary",
+      group: "Secretary",
     },
     {
-      path: 'student',
-      label: 'Student',
-      group: 'Student'
+      path: "student",
+      label: "Student",
+      group: "Student",
     },
-  ]
+  ];
 
-  constructor(private broadcastService: BroadcastService,
+  constructor(
+    private broadcastService: BroadcastService,
     private authService: MsalService,
-    private userService: UserService) {
+    private userService: UserService
+  ) {
     this.isIframe = window !== window.parent && !window.opener;
   }
 
   ngOnInit(): void {
-    this.subscription = this.broadcastService.subscribe("msal:loginSuccess",
+    this.subscription = this.broadcastService.subscribe(
+      "msal:loginSuccess",
       (payload) => {
         console.log("login success " + JSON.stringify(payload));
-      });
+      }
+    );
     this.user = this.userService.getUser();
   }
 
@@ -68,5 +71,4 @@ export class AppComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
 }

@@ -1,15 +1,44 @@
 .login {
-    text-align: center;
-    margin-top: 25em;
+  text-align: center;
+  margin-top: 25em;
 }
 
 .login-button {
-    width: 200px;
-    height: 100px;
-    font-size: 45px;
-    background-color: #4a90c2;
+  width: 200px;
+  height: 100px;
+  font-size: 45px;
+  background-color: #4a90c2;
 }
 
 .mat-nav-disabled {
-    display: none;
+  display: none;
+}
+
+.mat-toolbar {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 100%;
+  background-color: #4a90c2;
+  min-height: 64px;
+}
+
+.logo {
+  width: 200px;
+  vertical-align: middle;
+}
+
+.header-row {
+  display: inline-block;
+}
+
+.app-link {
+  display: block;
+  float: left;
+}
+
+.user-button {
+  display: block;
+  float: right;
+  margin-top: 10px;
 }

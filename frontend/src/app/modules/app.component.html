@@ -1,9 +1,34 @@
+<mat-toolbar class="toolbar">
+  <mat-toolbar-row class="header-row">
+    <div class="app-link">
+      <button mat-button routerLink="/">
+        <img class="logo" src="../../assets/logo.png" />
+      </button>
+    </div>
+    <div class="user-button">
+      <button mat-icon-button aria-label="user menu" [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <span>{{ user.username }} </span>
+        </button>
+        <button mat-menu-item>
+          <span>{{ user.groups[0] }} </span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
 <ng-container *ngIf="user.username != ''">
   <nav mat-tab-nav-bar>
     <a
       mat-tab-link
       *ngFor="let link of navLinks"
-      [className]="user.groups.includes(link.group) ? 'mat-nav' : 'mat-nav-disabled'"
+      [className]="
+        user.groups.includes(link.group) ? 'mat-nav' : 'mat-nav-disabled'
+      "
       [routerLink]="link.path"
       routerLinkActive
       #rla="routerLinkActive"

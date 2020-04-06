@@ -18,6 +18,10 @@
 
 @import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
 
+body {
+    margin: 0;
+}
+
 .borderless td, .borderless th {
     border: none !important;
 }

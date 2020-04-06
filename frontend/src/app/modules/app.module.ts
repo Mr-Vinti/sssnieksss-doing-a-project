@@ -32,13 +32,18 @@ import { SharedModule } from "../shared/shared.module";
 //routes
 import { AppRoutingModule } from "./app-routing.module";
 import { CustomHttpInterceptor } from "../core/http/custom-http-interceptor";
-import { AdminModule } from "./admin/admin.module";
 
-import { MatButtonModule } from "@angular/material/button";
-import { MatTabsModule } from "@angular/material/tabs";
 import { LoginModule } from "./login/login.module";
+import { AdminModule } from "./admin/admin.module";
 import { SecretaryModule } from "./secretary/secretary.module";
 import { StudentModule } from "./student/student.module";
+
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
 
 export function loggerCallback(logLevel, message, piiEnabled) {
   console.log("client logging" + message);
@@ -51,6 +56,7 @@ export const protectedResourceMap: [string, string[]][] = [
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -80,6 +86,9 @@ export const protectedResourceMap: [string, string[]][] = [
     }),
     MatButtonModule,
     MatTabsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
   ],
   bootstrap: [AppComponent],
   providers: [
