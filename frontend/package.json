@@ -1,12 +1,12 @@
 {
-  "name": "angular-template",
+  "name": "student-portal",
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build --prod --baseHref=/angular-spring-template/",
+    "build": "ng build --prod --baseHref=/student-portal/",
     "test": "ng test --browsers ChromeHeadless --watch=false",
     "test-chromium": "ng test --browsers ChromiumHeadless --watch=false",
     "test-local": "ng test --browsers Chromium --watch=true",

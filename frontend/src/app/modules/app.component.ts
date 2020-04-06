@@ -22,7 +22,6 @@ import { User } from "../shared/models/user";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = "Template app!";
   isIframe: boolean;
   private subscription: Subscription;
   loggedIn: boolean;
