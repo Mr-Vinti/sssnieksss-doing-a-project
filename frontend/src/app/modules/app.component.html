@@ -1,0 +1,9 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+<br />
+<a routerLink="module-one">View Module One</a>
+<br/>
+<router-outlet style="text-align:center;" *ngIf="!isIframe"></router-outlet>
