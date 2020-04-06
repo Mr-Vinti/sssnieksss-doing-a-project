@@ -56,8 +56,8 @@ export const protectedResourceMap: [string, string[]][] = [
     SharedModule,
     ModuleOneModule,
     MsalModule.forRoot({
-      clientID: 'TODO',
-      authority: "https://login.microsoftonline.com/TODO/",
+      clientID: '06067589-5dc1-4e8e-a565-7d4e370ac6df',
+      authority: "https://login.microsoftonline.com/679145ad-f827-42d8-b45e-720324e5d2a2/",
       validateAuthority: true,
       redirectUri: window.location.origin + environment.baseHref,
       cacheLocation: 'localStorage',

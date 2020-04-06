@@ -13,7 +13,7 @@ import { CoreModule } from '../../core.module';
 export class TestserviceService {
 
     private _testApi = '/api/test';  // URL to web api
-    public _baseHRef = 'https://wfapps2-dev.amgreetings.com:8443/angular-spring-template';
+    public _baseHRef = 'http://localhost:8080/student-portal';
     private _reqOptionsArgs = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
 
     constructor(private http: HttpClient, private pl: PlatformLocation) {

@@ -5,11 +5,13 @@ server:
     
 azure:
   activedirectory:
-    client-id: TODO
-    client-secret: "TODO"
+    client-id: 06067589-5dc1-4e8e-a565-7d4e370ac6df
+    client-secret: ".:aFE73_hF/57rz[mVV]/?Vyfnx2.R-F"
     user-group:
       allowed-groups:
-      - TODO
+      - Student
+      - Admin
+      - Secretary
       
 # Actuator Properties
 management:
