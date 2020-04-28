@@ -1,4 +1,4 @@
-package com.ag.test.beans;
+package com.sss.stdprt.beans;
 
 public class StringResponse {
 

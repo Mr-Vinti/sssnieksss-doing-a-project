@@ -1,11 +1,11 @@
-package com.ag.test.rest;
+package com.sss.stdprt.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ag.test.beans.StringResponse;
+import com.sss.stdprt.beans.StringResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,4 +1,4 @@
-package com.ag.test.security;
+package com.sss.stdprt.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
