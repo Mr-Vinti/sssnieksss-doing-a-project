@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,24 +13,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "dbo", name = "Department")
+@Table(schema = "dbo", name = "Contract")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department {
-	
+public class Contract {
+
 	@Id
-	@Column(name="DEPT_ID")
-	private Integer deptId;
+	@Column(name="CTR_ID")
+	private Integer ctrId;
 	
-	@Column(name="NAME")
-	private String name;
+	@Column(name="STD_ID")
+	private Integer stdId;
 	
-	@Column(name="FAC_ID")
-	private Integer facId;
-	
-	@OneToMany
-	@JoinColumn(name = "DEPT_ID")
-	private List<Series> seriesList;
+	@Column(name="STDY_TYPE")
+	private Integer stdyType;
 }

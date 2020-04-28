@@ -15,24 +15,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "dbo", name = "Department")
+@Table(schema = "dbo", name = "Series")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department {
+public class Series {
 	
 	@Id
-	@Column(name="DEPT_ID")
-	private Integer deptId;
+	@Column(name="SRS_ID")
+	private Integer srsId;
 	
 	@Column(name="NAME")
 	private String name;
 	
-	@Column(name="FAC_ID")
-	private Integer facId;
+	@Column(name="STDY_YR")
+	private Integer stdyYr;
+	
+	@Column(name="DEPT_ID")
+	private Integer deptId;
 	
 	@OneToMany
-	@JoinColumn(name = "DEPT_ID")
-	private List<Series> seriesList;
+	@JoinColumn(name = "SRS_ID")
+	private List<Group> groupList;
 }
