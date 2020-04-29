@@ -1,13 +1,13 @@
 import { RouterModule, Routes } from "@angular/router";
 
 //Components
-import { ComponentOneComponent } from "./component-one/component-one.component";
+import { FacultyComponent } from "./faculty/faculty.component";
 
 //Routes
 const moduleRoutes: Routes = [
   {
-    path: "admin/component-one",
-    component: ComponentOneComponent,
+    path: "admin/faculty",
+    component: FacultyComponent,
   },
 ];
 
