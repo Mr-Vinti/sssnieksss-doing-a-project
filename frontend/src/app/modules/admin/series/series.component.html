@@ -1,0 +1,96 @@
+<ng-container *ngIf="!optionPicked">
+    <div
+      class="button-div"
+      fxLayout="column"
+      fxLayour.lt-md="column"
+      fxLayoutGap="30px"
+      fxLayoutGap.lt-md="10px"
+    >
+      <button
+        class="option-button"
+        mat-raised-button
+        color="primary"
+        fxFlex="50%"
+        fxFlex.lt-md="100%"
+        (click)="selectOption('add')"
+      >
+        Add Series
+      </button>
+      <button
+        class="option-button"
+        mat-raised-button
+        color="primary"
+        fxFlex="49%"
+        fxFlex.lt-md="100%"
+        (click)="selectOption('edit')"
+      >
+        Show or Edit Series
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="optionPicked">
+    <ng-container *ngIf="option == 'add'">
+      <div class="add-form">
+        <form
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutGap="30px"
+          fxLayoutGap.lt-md="10px"
+          [formGroup]="matForm"
+          (ngSubmit)="addSeries
+          ()"
+        >
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Series Name</mat-label>
+            <input matInput type="text" formControlName="name" required />
+  
+            <mat-error *ngIf="matForm.controls.name.invalid">
+              You must enter a series name with only letters and spaces
+            </mat-error>
+  
+            <button
+              mat-button
+              *ngIf="matForm.controls.name.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="matForm.controls.name.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Study Year</mat-label>
+            <input matInput type="text" formControlName="stdyYr" required />
+  
+            <mat-error *ngIf="matForm.controls.name.invalid">
+              You must enter a study year with only numbers
+            </mat-error>
+  
+            <button
+              mat-button
+              *ngIf="matForm.controls.stdyYr.value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="matForm.controls.stdyYr.setValue('')"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            fxFlex="10%"
+            class="btn"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="option == 'edit'">cra edit</ng-container>
+  </ng-container>
+  
