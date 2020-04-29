@@ -1,19 +1,21 @@
+
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import { FacultyModel } from "../../../shared/models/faculty.model";
 import { Observable } from "rxjs";
+import { SeriesModel } from "../../../shared/models/series.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class FacultyService {
+export class SeriesService {
   constructor(private http: HttpClient) {}
 
-  addFaculty(name: string): Observable<FacultyModel> {
-      const url = environment.addFaculty;
+  addSeries(series: SeriesModel): Observable<SeriesModel> {
+    const url = environment.addSeries;
 
-      return this.http.post<FacultyModel>(url, name);
+    return this.http.post<SeriesModel>(url, series);
   }
 
 }

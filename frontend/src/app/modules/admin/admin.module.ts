@@ -15,9 +15,10 @@ import { MatIconModule } from "@angular/material/icon";
 import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { SeriesComponent } from './series/series.component';
 
 @NgModule({
-  declarations: [AdminComponent, FacultyComponent, ModalDialogComponent],
+  declarations: [AdminComponent, FacultyComponent, ModalDialogComponent, SeriesComponent],
   imports: [
     CommonModule,
     BrowserModule,
