@@ -15,4 +15,10 @@ export class FacultyService {
 
       return this.http.post<FacultyModel>(url, name);
   }
+
+  getFaculties(): Observable<Array<FacultyModel>> {
+      const url = environment.getFaculties;
+
+      return this.http.post<Array<FacultyModel>>(url, null);
+  }
 }

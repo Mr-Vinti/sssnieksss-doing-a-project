@@ -30,7 +30,7 @@
 </ng-container>
 <ng-container *ngIf="optionPicked">
   <ng-container *ngIf="option == 'add'">
-    <div class="add-form">
+    <div class="form">
       <form
         fxLayout="row"
         fxLayout.lt-md="column"
@@ -70,5 +70,24 @@
       </form>
     </div>
   </ng-container>
-  <ng-container *ngIf="option == 'edit'">cra edit</ng-container>
+  <ng-container *ngIf="option == 'edit' && facultyList != null">
+    <div class="form">
+      <form
+        [formGroup]="matForm"
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        fxLayoutGap="30px"
+        fxLayoutGap.lt-md="10px"
+      >
+        <mat-form-field fxFlex>
+          <mat-label>Faculty</mat-label>
+          <mat-select formControlName="faculty" required>
+            <mat-option *ngFor="let fac of facultyList" [value]="fac">
+              {{ fac.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </ng-container>
 </ng-container>

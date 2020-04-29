@@ -1,5 +1,8 @@
 package com.sss.stdprt.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.sss.stdprt.beans.FacultyDto;
@@ -25,5 +28,17 @@ public class AdminService {
 		
 		Faculty newFaculty = facultyRepository.save(faculty);
 		return new FacultyDto(newFaculty.getFacId(), newFaculty.getName(), newFaculty.getDepartmentList());
+	}
+
+	public List<FacultyDto> getFaculties() {
+		List<Faculty> faculties = facultyRepository.findAll();
+		
+		List<FacultyDto> facultyDtos = new LinkedList<FacultyDto>();
+		
+		for (Faculty faculty : faculties) {
+			facultyDtos.add(new FacultyDto(faculty.getFacId(), faculty.getName(), faculty.getDepartmentList()));
+		}
+		
+		return facultyDtos;
 	}
 }

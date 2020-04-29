@@ -15,6 +15,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSelectModule } from "@angular/material/select"
 
 @NgModule({
   declarations: [AdminComponent, FacultyComponent, ModalDialogComponent],
@@ -30,6 +31,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     FlexLayoutModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     AdminRouting,
   ],
   entryComponents: [ModalDialogComponent],
