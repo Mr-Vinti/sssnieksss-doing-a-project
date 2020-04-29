@@ -15,10 +15,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatSelectModule } from "@angular/material/select"
+import { MatSelectModule } from "@angular/material/select";
+import { DepartmentComponent } from './department/department.component'
 
 @NgModule({
-  declarations: [AdminComponent, FacultyComponent, ModalDialogComponent],
+  declarations: [AdminComponent, FacultyComponent, ModalDialogComponent, DepartmentComponent],
   imports: [
     CommonModule,
     BrowserModule,
