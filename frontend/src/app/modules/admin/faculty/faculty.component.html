@@ -20,7 +20,7 @@
       class="option-button"
       mat-raised-button
       color="primary"
-      fxFlex="49%"
+      fxFlex="50%"
       fxFlex.lt-md="100%"
       (click)="selectOption('edit')"
     >
@@ -88,6 +88,10 @@
           </mat-select>
         </mat-form-field>
       </form>
+
+      <ng-container *ngIf="matForm.controls.faculty.value">
+        cra
+      </ng-container>
     </div>
   </ng-container>
 </ng-container>
