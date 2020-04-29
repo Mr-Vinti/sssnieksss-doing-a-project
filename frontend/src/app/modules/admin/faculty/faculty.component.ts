@@ -15,6 +15,7 @@ export class FacultyComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
+  facultyList: Array<FacultyModel> = null;
 
   constructor(
     private fb: FormBuilder,
@@ -30,23 +31,40 @@ export class FacultyComponent implements OnInit {
     });
   }
 
-  private initializePage(): void {
-    this.matForm = this.fb.group({
-      name: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z\\s]*$")],
-        [],
-      ],
-    });
+  private initializePage(option: string): void {
+    if (option == "add") {
+      this.matForm = this.fb.group({
+        name: [
+          "",
+          [Validators.required, Validators.pattern("^[a-zA-Z\\s]*$")],
+          [],
+        ],
+      });
+    } else {
+      this.matForm = this.fb.group({
+        faculty: [
+          "",
+          [Validators.required],
+          [],
+        ],
+      })
+    }
   }
 
-  ngOnInit(): void {
-    this.initializePage();
-  }
+  ngOnInit(): void {}
 
   selectOption(option: string): void {
+    this.initializePage(option);
     this.optionPicked = true;
     this.option = option;
+
+    if (option == "edit") {
+      let dialogRef = this.openDialog("", true);
+      this.service.getFaculties().subscribe((response) => {
+        dialogRef.close();
+        this.facultyList = response;
+      });
+    }
   }
 
   addFaculty(): void {

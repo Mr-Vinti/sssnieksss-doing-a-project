@@ -1,5 +1,7 @@
 package com.sss.stdprt.rest;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +31,12 @@ public class AdminController {
 		FacultyDto facultyDto = adminService.addFaculty(name);
 		
 		return ResponseEntity.ok(facultyDto);
+	}
+	
+	@PostMapping("/admin/get-faculties")
+	public ResponseEntity<List<FacultyDto>> getFaculties() {
+		List<FacultyDto> faculties = adminService.getFaculties();
+		
+		return ResponseEntity.ok(faculties);
 	}
 }

@@ -16,6 +16,7 @@ import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SeriesComponent } from './series/series.component';
+import { MatSelectModule } from "@angular/material/select"
 
 @NgModule({
   declarations: [AdminComponent, FacultyComponent, ModalDialogComponent, SeriesComponent],
@@ -31,6 +32,7 @@ import { SeriesComponent } from './series/series.component';
     FlexLayoutModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     AdminRouting,
   ],
   entryComponents: [ModalDialogComponent],

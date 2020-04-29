@@ -7,5 +7,7 @@ export const environment = {
   production: false,
   baseHref: '/',
   addFaculty: 'http://localhost:8080/student-portal/admin/add-faculty',
+  addDepartment: 'http://localhost:8080/student-portal/admin/add-department',
   addSeries: 'http://localhost:8080/student-portal/admin/add-series',
+  getFaculties: 'http://localhost:8080/student-portal/admin/get-faculties',
 };
