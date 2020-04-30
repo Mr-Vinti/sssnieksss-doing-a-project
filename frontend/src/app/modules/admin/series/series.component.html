@@ -93,7 +93,7 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Faculty</mat-label>
+          <mat-label>Department</mat-label>
           <mat-select formControlName="department" required>
             <mat-option *ngFor="let dept of departmentList" [value]="dept">
               {{ dept.name }}
