@@ -6,6 +6,7 @@ import { ModalDialogComponent } from '../modal-dialog/modal-dialog.component';
 import { Dialog } from '../../../shared/models/dialog.model';
 import { FacultyService } from '../../../core/http/admin/faculty.service';
 import { DepartmentService } from '../../../core/http/admin/department.service';
+import { FacultyModel } from '../../../shared/models/faculty.model';
 
 @Component({
   selector: 'app-department',
@@ -17,11 +18,13 @@ export class DepartmentComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
+  facultyList: Array<FacultyModel> = null;
   departmentList: Array<DepartmentModel> = null;
 
   constructor(
     private fb: FormBuilder,
     private service: DepartmentService,
+    private facultyService: FacultyService,
     public dialog: MatDialog
   ) {}
 
@@ -41,6 +44,11 @@ export class DepartmentComponent implements OnInit {
           [Validators.required, Validators.pattern("^[a-zA-Z\\s]*$")],
           [],
         ],
+        faculty: [
+          "",
+          [Validators.required],
+          []
+        ]
       });
     } else {
       this.matForm = this.fb.group({
@@ -53,10 +61,19 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
+  private initializeDatasource(): void {
+    let dialogRef = this.openDialog("", true);
+    this.facultyService.getFaculties().subscribe((response) => {
+      dialogRef.close();
+      this.facultyList = response;
+    });
+  }
+
   ngOnInit(): void {}
 
   selectOption(option: string): void {
     this.initializePage(option);
+    this.initializeDatasource();
     this.optionPicked = true;
     this.option = option;
 
@@ -69,18 +86,26 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
-  addFaculty(): void {
+  addDepartment(): void {
     if (!this.matForm.valid) {
       this.matForm.markAsTouched();
       return;
     }
 
+    let department: DepartmentModel = new DepartmentModel();
+
+    department.faculty = this.matForm.controls.faculty.value;
+    department.name = this.matForm.controls.name.value;
+
+    console.log(department);
+
     let dialogRef = this.openDialog("", true);
     this.service
-      .addDepartment(this.matForm.controls.name.value)
+      .addDepartment(department)
       .subscribe((response) => {
         dialogRef.close();
         let department: DepartmentModel = response;
+        console.log(department);
         if (department.seriesList == null) {
           this.openDialog(
             "Successfully created the new " +
@@ -88,7 +113,7 @@ export class DepartmentComponent implements OnInit {
               " department with id " +
               department.deptId +
               " from the faculty " + 
-              department.facId + 
+              this.matForm.controls.faculty.value.name + 
               ".",
             false
           );
@@ -99,7 +124,7 @@ export class DepartmentComponent implements OnInit {
               " already exists with id " +
               department.deptId +
               " at faculty " +
-              department.facId +
+              department.faculty.name +
               ".",
             false
           );

@@ -1,6 +1,7 @@
 package com.sss.stdprt.domain;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +10,15 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.sss.stdprt.beans.ContractDto;
+import com.sss.stdprt.beans.StudentDto;
 
 
 @Entity
@@ -25,7 +31,7 @@ public class Student {
 
     @Id
     @Column(name="STD_ID")
-    private Integer studentId;
+    private Integer stdId;
 
     @Column(name="FRSTNAM")
     private String firstName;
@@ -40,7 +46,7 @@ public class Student {
     private String fatherInitial;
 
     @Column(name="CNP")
-    private String CNP;
+    private String cnp;
 
     @Column(name="PHN_NBR")
     private String phoneNumber;
@@ -48,14 +54,32 @@ public class Student {
     @Column(name="EMAIL")
     private String email;
 
-    @Column(name="GRP_ID")
-    private Integer groupId;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="GRP_ID")
+    private Group group;
 
     @Column(name="STDY_YR")
     private Integer studyYear;
 
     @OneToMany
     @JoinColumn(name = "STD_ID")
-    private List<Contract> contractIds;
+    private List<Contract> contractList;
 
+    public static StudentDto entityToDto(Student entity) {
+    	if (entity == null) {
+			return null;
+		}
+    	
+    	List<ContractDto> contractDtos = null;
+    	if (entity.getContractList() != null) {
+    		contractDtos = entity.getContractList().stream().map(Contract::entityToDto).collect(Collectors.toList());
+    	}
+    	
+    	StudentDto dto = new StudentDto(entity.getStdId(), entity.getFirstName(), entity.getLastName(),
+    			entity.getUserName(), entity.getFatherInitial(), entity.getCnp(), entity.getPhoneNumber(),
+    			entity.getEmail(), Group.entityToDto(entity.getGroup()), entity.getStudyYear(),
+    			contractDtos);
+		
+		return dto;
+	}
 }

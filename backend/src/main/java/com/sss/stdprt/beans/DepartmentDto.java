@@ -14,6 +14,6 @@ import lombok.Setter;
 public class DepartmentDto {
 	private Integer deptId;
 	private String name;
-	private Integer facId;
+	private FacultyDto faculty;
 	private List<SeriesDto> seriesList;
 }

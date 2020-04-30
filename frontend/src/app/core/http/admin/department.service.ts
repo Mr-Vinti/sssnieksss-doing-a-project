@@ -11,10 +11,10 @@ import { DepartmentModel } from "../../../shared/models/department.model";
 export class DepartmentService {
   constructor(private http: HttpClient) {}
 
-  addDepartment(name: string): Observable<DepartmentModel> {
+  addDepartment(department: DepartmentModel): Observable<DepartmentModel> {
       const url = environment.addDepartment;
 
-      return this.http.post<DepartmentModel>(url, name);
+      return this.http.post<DepartmentModel>(url, department);
   }
 
   getDepartments(): Observable<Array<DepartmentModel>> {

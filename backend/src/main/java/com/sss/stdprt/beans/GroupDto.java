@@ -11,8 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FacultyDto {
-	private Integer facId;
+public class GroupDto {
+	private Integer grpId;
 	private String name;
-	private List<DepartmentDto> departmentList;
+	private SeriesDto series;
+	private List<StudentDto> studentList;
 }

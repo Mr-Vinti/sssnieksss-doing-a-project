@@ -2,8 +2,13 @@ package com.sss.stdprt.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.sss.stdprt.beans.ContractDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +27,21 @@ public class Contract {
 	@Column(name="CTR_ID")
 	private Integer ctrId;
 	
-	@Column(name="STD_ID")
-	private Integer stdId;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="STD_ID")
+	private Student student;
 	
 	@Column(name="STDY_TYPE")
 	private Integer stdyType;
+	
+	public static ContractDto entityToDto(Contract entity) {
+		if (entity == null) {
+			return null;
+		}
+		
+		ContractDto dto = new ContractDto(entity.getCtrId(), Student.entityToDto(entity.getStudent()),
+				entity.getStdyType());
+		
+		return dto;
+	}
 }

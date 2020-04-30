@@ -1,7 +1,7 @@
 package com.sss.stdprt.service;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -26,41 +26,44 @@ public class AdminService {
 		Faculty faculty = facultyRepository.findByNameIgnoreCase(name);
 
 		if (faculty != null) {
-			return new FacultyDto(faculty.getFacId(), faculty.getName(), faculty.getDepartmentList());
+			return Faculty.entityToDto(faculty, true);
 		}
 
 		faculty = new Faculty();
 		faculty.setName(name);
 
 		Faculty newFaculty = facultyRepository.save(faculty);
-		return new FacultyDto(newFaculty.getFacId(), newFaculty.getName(), newFaculty.getDepartmentList());
+		return Faculty.entityToDto(newFaculty, true);
 	}
 
 	public List<FacultyDto> getFaculties() {
 		List<Faculty> faculties = facultyRepository.findAll();
 
-		List<FacultyDto> facultyDtos = new LinkedList<FacultyDto>();
-
-		for (Faculty faculty : faculties) {
-			facultyDtos.add(new FacultyDto(faculty.getFacId(), faculty.getName(), faculty.getDepartmentList()));
-		}
+		List<FacultyDto> facultyDtos = faculties.stream().map(ent -> Faculty.entityToDto(ent, true)).collect(Collectors.toList());
 
 		return facultyDtos;
+	}
+
+	public DepartmentDto addDepartment(DepartmentDto dept) {
+		Department department = departmentRepository.findByNameIgnoreCaseAndFacId(dept.getName(), dept.getFaculty().getFacId());
+		
+		if (department != null) {
+			return Department.entityToDto(department, true);
+		}
+		
+		department = new Department();
+		department.setName(dept.getName());
+		department.setFacId(dept.getFaculty().getFacId());
+		
+		Department newDepartment = departmentRepository.save(department);
+		
+		return Department.entityToDto(newDepartment, true);
 	}
 
 	public List<DepartmentDto> getDepartments() {
 		List<Department> departments = departmentRepository.findAll();
 
-		List<DepartmentDto> departmentDtos = new LinkedList<DepartmentDto>();
-
-		for (Department department : departments) {
-			List<SeriesDto> seriesDto = new LinkedList<SeriesDto>();
-			for (Series series : department.getSeriesList()) {
-				seriesDto.add(new SeriesDto());
-			}
-			departmentDtos.add(new DepartmentDto(department.getDeptId(), department.getName(),
-					department.getFacId(), seriesDto));
-		}
+		List<DepartmentDto> departmentDtos = departments.stream().map(ent -> Department.entityToDto(ent, true)).collect(Collectors.toList());
 
 		return departmentDtos;
 	}
