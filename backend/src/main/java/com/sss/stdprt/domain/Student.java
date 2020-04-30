@@ -11,6 +11,8 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -30,7 +32,8 @@ import com.sss.stdprt.beans.StudentDto;
 public class Student {
 
     @Id
-    @Column(name="STD_ID")
+    @Column(name="STD_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer stdId;
 
     @Column(name="FRSTNAM")
@@ -65,20 +68,20 @@ public class Student {
     @JoinColumn(name = "STD_ID")
     private List<Contract> contractList;
 
-    public static StudentDto entityToDto(Student entity) {
+    public static StudentDto entityToDto(Student entity, boolean parent) {
     	if (entity == null) {
 			return null;
 		}
     	
     	List<ContractDto> contractDtos = null;
     	if (entity.getContractList() != null) {
-    		contractDtos = entity.getContractList().stream().map(Contract::entityToDto).collect(Collectors.toList());
+    		contractDtos = entity.getContractList().stream().map(ent -> Contract.entityToDto(ent, false)).collect(Collectors.toList());
     	}
     	
     	StudentDto dto = new StudentDto(entity.getStdId(), entity.getFirstName(), entity.getLastName(),
     			entity.getUserName(), entity.getFatherInitial(), entity.getCnp(), entity.getPhoneNumber(),
-    			entity.getEmail(), Group.entityToDto(entity.getGroup()), entity.getStudyYear(),
-    			contractDtos);
+    			entity.getEmail(), (parent ? Group.entityToDto(entity.getGroup(), true) : null),
+    			entity.getStudyYear(), contractDtos);
 		
 		return dto;
 	}

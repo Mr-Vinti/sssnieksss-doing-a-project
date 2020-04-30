@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import {ModalDialogComponent} from './modal-dialog.component';
+import { ModalDialogComponent } from "./modal-dialog.component";
 
-describe('ModalDialogComponent', () => {
+describe("ModalDialogComponent", () => {
   let component: ModalDialogComponent;
   let fixture: ComponentFixture<ModalDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [ModalDialogComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ModalDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -12,14 +12,14 @@ export class DepartmentService {
   constructor(private http: HttpClient) {}
 
   addDepartment(department: DepartmentModel): Observable<DepartmentModel> {
-      const url = environment.addDepartment;
+    const url = environment.addDepartment;
 
-      return this.http.post<DepartmentModel>(url, department);
+    return this.http.post<DepartmentModel>(url, department);
   }
 
-  getDepartments(): Observable<Array<DepartmentModel>> {
-      const url = environment.getDepartments;
+  getDepartments(facId: number): Observable<Array<DepartmentModel>> {
+    const url = environment.getDepartments;
 
-      return this.http.post<Array<DepartmentModel>>(url, null);
+    return this.http.post<Array<DepartmentModel>>(url, facId);
   }
 }

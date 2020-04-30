@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
+import com.sss.stdprt.beans.SeriesDto;
 import com.sss.stdprt.service.AdminService;
 
 import io.swagger.annotations.Api;
@@ -61,9 +62,31 @@ public class AdminController {
 		@ApiResponse(code = 400, message = "Malformed request"),
 		@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/get-departments")
-	public ResponseEntity<List<DepartmentDto>> getDepartments() {
-		List<DepartmentDto> departments = adminService.getDepartments();
+	public ResponseEntity<List<DepartmentDto>> getDepartments(@RequestBody Integer facId) {
+		List<DepartmentDto> departments = adminService.getDepartments(facId);
 		
 		return ResponseEntity.ok(departments);
+	}
+	
+	@ApiOperation("Add Series Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/add-series")
+	public ResponseEntity<SeriesDto> addSeries(@RequestBody SeriesDto series) {
+		SeriesDto newSeriesDto = adminService.addSeries(series);
+		
+		return ResponseEntity.ok(newSeriesDto);
+	}
+	
+	@ApiOperation("Get Departments Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/get-series")
+	public ResponseEntity<List<SeriesDto>> getSeries() {
+		List<SeriesDto> series = adminService.getSeries();
+		
+		return ResponseEntity.ok(series);
 	}
 }

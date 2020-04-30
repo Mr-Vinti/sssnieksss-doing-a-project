@@ -1,4 +1,3 @@
-
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
@@ -17,5 +16,4 @@ export class SeriesService {
 
     return this.http.post<SeriesModel>(url, series);
   }
-
 }

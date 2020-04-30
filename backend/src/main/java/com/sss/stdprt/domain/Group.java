@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -13,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.sss.stdprt.beans.GroupDto;
+import com.sss.stdprt.beans.StudentDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "dbo", name = "Group")
+@Table(schema = "dbo", name = "[Group]")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,7 +31,8 @@ import lombok.Setter;
 public class Group {
 	
 	@Id
-	@Column(name="GRP_ID")
+	@Column(name="GRP_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer grpId;
 	
 	@Column(name="NAME")
@@ -42,14 +46,19 @@ public class Group {
 	@JoinColumn(name = "GRP_ID")
 	private List<Student> studentList;
 	
-	public static GroupDto entityToDto(Group entity) {
+	public static GroupDto entityToDto(Group entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
 		
+		List<StudentDto> studentDtos = null;
+		if (entity.getStudentList() != null) {
+			studentDtos = entity.getStudentList().stream().map(ent -> Student.entityToDto(ent, false)).collect(Collectors.toList());
+		}
+		
 		GroupDto dto = new GroupDto(entity.getGrpId(), entity.getName(),
-				Series.entityToDto(entity.getSeries()),
-				entity.getStudentList().stream().map(Student::entityToDto).collect(Collectors.toList()));
+				(parent ? Series.entityToDto(entity.getSeries(), true) : null),
+				studentDtos);
 		
 		return dto;
 	}

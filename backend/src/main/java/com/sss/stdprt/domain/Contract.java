@@ -3,6 +3,8 @@ package com.sss.stdprt.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -24,7 +26,8 @@ import lombok.Setter;
 public class Contract {
 
 	@Id
-	@Column(name="CTR_ID")
+	@Column(name="CTR_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer ctrId;
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -34,12 +37,12 @@ public class Contract {
 	@Column(name="STDY_TYPE")
 	private Integer stdyType;
 	
-	public static ContractDto entityToDto(Contract entity) {
+	public static ContractDto entityToDto(Contract entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
 		
-		ContractDto dto = new ContractDto(entity.getCtrId(), Student.entityToDto(entity.getStudent()),
+		ContractDto dto = new ContractDto(entity.getCtrId(), (parent ? Student.entityToDto(entity.getStudent(), true) : null),
 				entity.getStdyType());
 		
 		return dto;

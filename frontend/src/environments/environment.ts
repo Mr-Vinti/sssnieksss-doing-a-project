@@ -11,4 +11,5 @@ export const environment = {
   addSeries: 'http://localhost:8080/student-portal/admin/add-series',
   getFaculties: 'http://localhost:8080/student-portal/admin/get-faculties',
   getDepartments: 'http://localhost:8080/student-portal/admin/get-departments',
+  getSeries: 'http://localhost:8080/student-portal/admin/get-series',
 };

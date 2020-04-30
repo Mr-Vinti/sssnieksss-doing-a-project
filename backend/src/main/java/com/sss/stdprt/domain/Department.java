@@ -58,7 +58,7 @@ public class Department {
 		
 		List<SeriesDto> seriesDtos = null;
 		if (entity.getSeriesList() != null) {
-			seriesDtos = entity.getSeriesList().stream().map(Series::entityToDto).collect(Collectors.toList());
+			seriesDtos = entity.getSeriesList().stream().map(ent -> Series.entityToDto(ent, false)).collect(Collectors.toList());
 		}
 		
 		DepartmentDto dto = new DepartmentDto(entity.getDeptId(), entity.getName(),

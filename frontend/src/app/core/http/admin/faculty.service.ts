@@ -11,14 +11,14 @@ export class FacultyService {
   constructor(private http: HttpClient) {}
 
   addFaculty(name: string): Observable<FacultyModel> {
-      const url = environment.addFaculty;
+    const url = environment.addFaculty;
 
-      return this.http.post<FacultyModel>(url, name);
+    return this.http.post<FacultyModel>(url, name);
   }
 
   getFaculties(): Observable<Array<FacultyModel>> {
-      const url = environment.getFaculties;
+    const url = environment.getFaculties;
 
-      return this.http.post<Array<FacultyModel>>(url, null);
+    return this.http.post<Array<FacultyModel>>(url, null);
   }
 }
