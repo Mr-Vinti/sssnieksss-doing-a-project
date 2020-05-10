@@ -18,14 +18,16 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { SeriesComponent } from "./series/series.component";
 import { DepartmentComponent } from "./department/department.component";
+import { GroupComponent } from "./group/group.component";
 
 @NgModule({
   declarations: [
     AdminComponent,
     FacultyComponent,
     ModalDialogComponent,
-    SeriesComponent,
     DepartmentComponent,
+    SeriesComponent,
+    GroupComponent,
   ],
   imports: [
     CommonModule,

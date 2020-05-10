@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
+import com.sss.stdprt.beans.GroupDto;
 import com.sss.stdprt.beans.SeriesDto;
 import com.sss.stdprt.service.AdminService;
 
@@ -79,14 +80,37 @@ public class AdminController {
 		return ResponseEntity.ok(newSeriesDto);
 	}
 	
-	@ApiOperation("Get Departments Method")
+	@ApiOperation("Get Series Method")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
 		@ApiResponse(code = 400, message = "Malformed request"),
 		@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/get-series")
-	public ResponseEntity<List<SeriesDto>> getSeries() {
-		List<SeriesDto> series = adminService.getSeries();
+	public ResponseEntity<List<SeriesDto>> getSeries(@RequestBody Integer deptId) {
+		List<SeriesDto> series = adminService.getSeries(deptId);
 		
 		return ResponseEntity.ok(series);
 	}
+
+	@ApiOperation("Add Group Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/add-group")
+	public ResponseEntity<GroupDto> addGroup(@RequestBody GroupDto group) {
+		GroupDto newGroupDto = adminService.addGroup(group);
+		
+		return ResponseEntity.ok(newGroupDto);
+	}
+
+	@ApiOperation("Get Groups Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/get-groups")
+	public ResponseEntity<List<GroupDto>> getGroups(@RequestBody Integer srsId) {
+		List<GroupDto> groups = adminService.getGroups(srsId);
+		
+		return ResponseEntity.ok(groups);
+	}
+
 }

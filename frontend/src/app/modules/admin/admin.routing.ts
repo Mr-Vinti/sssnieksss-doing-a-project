@@ -4,6 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { FacultyComponent } from "./faculty/faculty.component";
 import { SeriesComponent } from "./series/series.component";
 import { DepartmentComponent } from "./department/department.component";
+import { GroupComponent } from "./group/group.component";
 
 //Routes
 const moduleRoutes: Routes = [
@@ -18,6 +19,10 @@ const moduleRoutes: Routes = [
   {
     path: "admin/series",
     component: SeriesComponent,
+  },
+  {
+    path: "admin/group",
+    component: GroupComponent,
   },
 ];
 

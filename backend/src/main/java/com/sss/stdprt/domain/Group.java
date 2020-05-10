@@ -38,8 +38,11 @@ public class Group {
 	@Column(name="NAME")
 	private String name;
 	
+	@Column(name="SRS_ID")
+	private Integer srsId;
+	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="SRS_ID")
+	@JoinColumn(name="SRS_ID", insertable = false, updatable = false)
 	private Series series;
 	
 	@OneToMany

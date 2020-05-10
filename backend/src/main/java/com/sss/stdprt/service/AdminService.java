@@ -7,12 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
+import com.sss.stdprt.beans.GroupDto;
 import com.sss.stdprt.beans.SeriesDto;
 import com.sss.stdprt.domain.Department;
 import com.sss.stdprt.domain.Faculty;
+import com.sss.stdprt.domain.Group;
 import com.sss.stdprt.domain.Series;
 import com.sss.stdprt.repository.DepartmentRepository;
 import com.sss.stdprt.repository.FacultyRepository;
+import com.sss.stdprt.repository.GroupRepository;
 import com.sss.stdprt.repository.SeriesRepository;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +26,7 @@ public class AdminService {
 	private final FacultyRepository facultyRepository;
 	private final DepartmentRepository departmentRepository;
 	private final SeriesRepository seriesRepository;
+	private final GroupRepository groupRepository;
 
 	public FacultyDto addFaculty(String name) {
 		Faculty faculty = facultyRepository.findByNameIgnoreCase(name);
@@ -88,11 +92,34 @@ public class AdminService {
 		return Series.entityToDto(newSeries, false);
 	}
 
-	public List<SeriesDto> getSeries() {
-		List<Series> series = seriesRepository.findAll();
+	public List<SeriesDto> getSeries(Integer deptId) {
+		List<Series> series = seriesRepository.findByDeptId(deptId);
 
 		List<SeriesDto> seriesDtos = series.stream().map(ent -> Series.entityToDto(ent, true)).collect(Collectors.toList());
 
 		return seriesDtos;
+	}
+	
+	public GroupDto addGroup(GroupDto groupDto) {
+		Group group = groupRepository.findByNameIgnoreCaseAndSrsId(groupDto.getName(), groupDto.getSeries().getSrsId());
+		
+		if (group != null) {
+			return Group.entityToDto(group, false);
+		}
+		
+		group = new Group();
+		group.setName(groupDto.getName());
+		group.setSrsId(groupDto.getSeries().getSrsId());
+		
+		Group newGroup = groupRepository.save(group);
+		return Group.entityToDto(newGroup, false);
+	}
+
+	public List<GroupDto> getGroups(Integer srsId) {
+		List<Group> groups = groupRepository.findBySrsId(srsId);
+
+		List<GroupDto> groupDtos = groups.stream().map(ent -> Group.entityToDto(ent, true)).collect(Collectors.toList());
+
+		return groupDtos;
 	}
 }

@@ -16,4 +16,10 @@ export class SeriesService {
 
     return this.http.post<SeriesModel>(url, series);
   }
+
+  getSeries(deptId: number): Observable<Array<SeriesModel>> {
+    const url = environment.getSeries;
+
+    return this.http.post<Array<SeriesModel>>(url, deptId);
+  }
 }

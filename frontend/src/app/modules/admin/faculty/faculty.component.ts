@@ -51,7 +51,11 @@ export class FacultyComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (history.state.data !== undefined) {
+      this.selectOption(history.state.data);
+    }
+  }
 
   selectOption(option: string): void {
     this.initializePage(option);

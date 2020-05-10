@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
-import { FacultyModel } from "../../../shared/models/faculty.model";
 import { Observable } from "rxjs";
 import { DepartmentModel } from "../../../shared/models/department.model";
 
