@@ -21,4 +21,16 @@ export class FacultyService {
 
     return this.http.post<Array<FacultyModel>>(url, null);
   }
+
+  updateFaculty(faculty: FacultyModel) {
+    const url = environment.updateFaculty;
+
+    return this.http.post<any>(url, faculty);
+  }
+
+  deleteFaculty(facId: number) {
+    const url = environment.deleteFaculty;
+
+    return this.http.post<any>(url, facId);
+  }
 }

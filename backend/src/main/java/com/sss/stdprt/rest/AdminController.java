@@ -49,6 +49,28 @@ public class AdminController {
 		return ResponseEntity.ok(faculties);
 	}
 	
+	@ApiOperation("Update Faculty Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-faculty")
+	public ResponseEntity<String> updateFaculty(@RequestBody FacultyDto faculty) {
+		String response = adminService.updateFaculty(faculty);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Faculty Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-faculty")
+	public ResponseEntity<String> deleteFaculty(@RequestBody Integer facId) {
+		String response = adminService.deleteFaculty(facId);
+		
+		return ResponseEntity.ok(response);
+	}
+	
 	@ApiOperation("Add Department Method")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
 		@ApiResponse(code = 400, message = "Malformed request"),

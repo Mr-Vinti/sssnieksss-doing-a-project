@@ -12,10 +12,25 @@ export const environment = {
   addGroup: 'http://localhost:8080/student-portal/admin/add-group',
   addStudent: 'http://localhost:8080/student-portal/admin/add-student',
   addCourse: 'http://localhost:8080/student-portal/admin/add-course',
+
   getFaculties: 'http://localhost:8080/student-portal/admin/get-faculties',
   getDepartments: 'http://localhost:8080/student-portal/admin/get-departments',
   getSeries: 'http://localhost:8080/student-portal/admin/get-series',
   getGroups: 'http://localhost:8080/student-portal/admin/get-groups',
   getStudents: 'http://localhost:8080/student-portal/admin/get-students',
   getCourses: 'http://localhost:8080/student-portal/admin/get-courses',
+
+  updateFaculty: 'http://localhost:8080/student-portal/admin/update-faculty',
+  updateDepartment: 'http://localhost:8080/student-portal/admin/update-department',
+  updateSeries: 'http://localhost:8080/student-portal/admin/update-series',
+  updateGroup: 'http://localhost:8080/student-portal/admin/update-group',
+  updateStudent: 'http://localhost:8080/student-portal/admin/update-student',
+  updateCourse: 'http://localhost:8080/student-portal/admin/update-course',
+
+  deleteFaculty: 'http://localhost:8080/student-portal/admin/delete-faculty',
+  deleteDepartment: 'http://localhost:8080/student-portal/admin/delete-department',
+  deleteSeries: 'http://localhost:8080/student-portal/admin/delete-series',
+  deleteGroup: 'http://localhost:8080/student-portal/admin/delete-group',
+  deleteStudent: 'http://localhost:8080/student-portal/admin/delete-student',
+  deleteCourse: 'http://localhost:8080/student-portal/admin/delete-course',
 };

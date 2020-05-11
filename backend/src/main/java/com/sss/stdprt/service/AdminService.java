@@ -1,6 +1,7 @@
 package com.sss.stdprt.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,45 @@ public class AdminService {
 
 		return facultyDtos;
 	}
+
+	public String updateFaculty(FacultyDto faculty) {
+		Faculty newFaculty = facultyRepository.findByNameIgnoreCase(faculty.getName());
+		
+		if (newFaculty != null) {
+			return "Faculty already exists";
+		}
+		
+		Optional<Faculty> facOpt = facultyRepository.findById(faculty.getFacId());
+		
+		if (facOpt.isPresent()) {
+			Faculty fac = facOpt.get();
+			
+			fac.setName(faculty.getName());
+			
+			facultyRepository.save(fac);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+
+
+	public String deleteFaculty(Integer facId) {
+		Optional<Faculty> facOpt = facultyRepository.findById(facId);
+		
+		if (facOpt.isPresent()) {
+			Faculty fac = facOpt.get();
+			
+			facultyRepository.delete(fac);
+			
+			return "Success";
+		}
+		
+		return "Fail";
+	}
+	
 
 	public DepartmentDto addDepartment(DepartmentDto deptDto) {
 		Department department = departmentRepository.findByNameIgnoreCaseAndFacId(
@@ -217,5 +257,4 @@ public class AdminService {
 
 		return courseDtos;
 	}
-	
 }
