@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sss.stdprt.beans.CourseDto;
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
 import com.sss.stdprt.beans.GroupDto;
@@ -136,4 +137,25 @@ public class AdminController {
 		return ResponseEntity.ok(students);
 	}
 
+	@ApiOperation("Add Course Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/add-course")
+	public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto course) {
+		CourseDto newCourseDto = adminService.addCourse(course);
+		
+		return ResponseEntity.ok(newCourseDto);
+	}
+
+	@ApiOperation("Get Course Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/get-courses")
+	public ResponseEntity<List<CourseDto>> getCourses(@RequestBody Integer crsId) {
+		List<CourseDto> courses = adminService.getCourses(crsId);
+		
+		return ResponseEntity.ok(courses);
+	}
 }

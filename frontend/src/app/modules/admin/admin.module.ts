@@ -20,6 +20,7 @@ import { SeriesComponent } from "./series/series.component";
 import { DepartmentComponent } from "./department/department.component";
 import { GroupComponent } from "./group/group.component";
 import { StudentComponent } from "./student/student.component";
+import { CourseComponent } from "./course/course.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { StudentComponent } from "./student/student.component";
     SeriesComponent,
     GroupComponent,
     StudentComponent,
+    CourseComponent,
   ],
   imports: [
     CommonModule,

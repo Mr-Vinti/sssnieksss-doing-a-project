@@ -6,7 +6,7 @@ export class CourseModel {
     name: string;
     creditPoints: number;
     teacher: string;
-    semester: string;
+    semester: number;
     studyYear: number;
     series: SeriesModel;
 };

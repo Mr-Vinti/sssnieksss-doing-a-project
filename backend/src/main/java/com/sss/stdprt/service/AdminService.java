@@ -6,16 +6,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.sss.stdprt.beans.CourseDto;
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
 import com.sss.stdprt.beans.GroupDto;
 import com.sss.stdprt.beans.SeriesDto;
 import com.sss.stdprt.beans.StudentDto;
+import com.sss.stdprt.domain.Course;
 import com.sss.stdprt.domain.Department;
 import com.sss.stdprt.domain.Faculty;
 import com.sss.stdprt.domain.Group;
 import com.sss.stdprt.domain.Series;
 import com.sss.stdprt.domain.Student;
+import com.sss.stdprt.repository.CourseRepository;
 import com.sss.stdprt.repository.DepartmentRepository;
 import com.sss.stdprt.repository.FacultyRepository;
 import com.sss.stdprt.repository.GroupRepository;
@@ -32,6 +35,7 @@ public class AdminService {
 	private final SeriesRepository seriesRepository;
 	private final GroupRepository groupRepository;
 	private final StudentRepository studentRepository;
+	private final CourseRepository courseRepository;
 
 	public FacultyDto addFaculty(String name) {
 		Faculty faculty = facultyRepository.findByNameIgnoreCase(name);
@@ -185,4 +189,33 @@ public class AdminService {
 		return studentDtos;
 	}
 
+	public CourseDto addCourse(CourseDto courseDto) {
+		Course course = courseRepository.findByNameIgnoreCaseAndSrsId(courseDto.getName(), courseDto.getSeries().getSrsId());
+		
+		if (course != null) {
+			CourseDto courseExistsDto = Course.entityToDto(course, false);
+			courseExistsDto.setName(null);
+			return courseExistsDto;
+		}
+		
+		course = new Course();
+		course.setName(courseDto.getName());
+		course.setSrsId(courseDto.getSeries().getSrsId());
+		course.setTeacher(courseDto.getTeacher());
+		course.setSemester(courseDto.getSemester());
+		course.setCreditPoints(courseDto.getCreditPoints());
+		course.setStudyYear(courseDto.getStudyYear());
+		
+		Course newGroup = courseRepository.save(course);
+		return Course.entityToDto(newGroup, false);
+	}
+
+	public List<CourseDto> getCourses(Integer crsId) {
+		List<Course> courses = courseRepository.findBySrsId(crsId);
+
+		List<CourseDto> courseDtos = courses.stream().map(ent -> Course.entityToDto(ent, true)).collect(Collectors.toList());
+
+		return courseDtos;
+	}
+	
 }
