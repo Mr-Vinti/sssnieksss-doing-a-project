@@ -103,10 +103,10 @@
           <mat-select
             formControlName="series"
             required
-            (selectionChange)="updtStdyYear($event)"
+            (selectionChange)="updtStdyYear($event); loadGroups($event)"
           >
             <mat-option *ngFor="let srs of seriesList" [value]="srs">
-              {{ srs.name + ' ' + srs.stdyYr }}
+              {{ srs.name + " " + srs.stdyYr }}
             </mat-option>
           </mat-select>
 

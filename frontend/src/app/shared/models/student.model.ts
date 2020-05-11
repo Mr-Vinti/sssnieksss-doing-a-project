@@ -1,16 +1,17 @@
 import { ContractModel } from "./contract.model";
+import { GroupModel } from "./group.model";
 
 
 export class StudentModel {
     stdId: number;
-    frstnam: string;
-    lstnam: string;
-    usrnam: string;
-    fthrinit: string;
+    firstName: string;
+    lastName: string;
+    userName: string;
+    fatherInitial: string;
     cnp: string;
-    phnnbr: string;
+    phoneNumber: string;
     email: string;
-    grpId: number;
-    stdyYr: number;
-	contractsList: Array<ContractModel>;
+    group: GroupModel;
+    studyYear: number;
+	contractList: Array<ContractModel>;
 };

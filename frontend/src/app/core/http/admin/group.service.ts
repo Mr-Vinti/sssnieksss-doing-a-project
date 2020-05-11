@@ -17,7 +17,7 @@ export class GroupService {
   }
 
   getGroups(srsId: number): Observable<Array<GroupModel>> {
-    const url = environment.getDepartments;
+    const url = environment.getGroups;
 
     return this.http.post<Array<GroupModel>>(url, srsId);
   }

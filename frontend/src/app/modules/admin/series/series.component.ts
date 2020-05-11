@@ -8,7 +8,6 @@ import { SeriesModel } from "../../../shared/models/series.model";
 import { SeriesService } from "../../../core/http/admin/series.service";
 import { DepartmentModel } from "../../../shared/models/department.model";
 import { FacultyService } from "../../../core/http/admin/faculty.service";
-import { DepartmentService } from "../../../core/http/admin/department.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -27,7 +26,6 @@ export class SeriesComponent implements OnInit {
     private fb: FormBuilder,
     private service: SeriesService,
     private facultyService: FacultyService,
-    private departmentService: DepartmentService,
     private router: Router,
     public dialog: MatDialog
   ) {}

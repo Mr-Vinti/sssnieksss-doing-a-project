@@ -5,6 +5,7 @@ import { FacultyComponent } from "./faculty/faculty.component";
 import { SeriesComponent } from "./series/series.component";
 import { DepartmentComponent } from "./department/department.component";
 import { GroupComponent } from "./group/group.component";
+import { StudentComponent } from "./student/student.component";
 
 //Routes
 const moduleRoutes: Routes = [
@@ -23,6 +24,10 @@ const moduleRoutes: Routes = [
   {
     path: "admin/group",
     component: GroupComponent,
+  },
+  {
+    path: "admin/student",
+    component: StudentComponent,
   },
 ];
 

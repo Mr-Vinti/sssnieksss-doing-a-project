@@ -10,8 +10,10 @@ export const environment = {
   addDepartment: 'http://localhost:8080/student-portal/admin/add-department',
   addSeries: 'http://localhost:8080/student-portal/admin/add-series',
   addGroup: 'http://localhost:8080/student-portal/admin/add-group',
+  addStudent: 'http://localhost:8080/student-portal/admin/add-student',
   getFaculties: 'http://localhost:8080/student-portal/admin/get-faculties',
   getDepartments: 'http://localhost:8080/student-portal/admin/get-departments',
   getSeries: 'http://localhost:8080/student-portal/admin/get-series',
   getGroups: 'http://localhost:8080/student-portal/admin/get-groups',
+  getStudents: 'http://localhost:8080/student-portal/admin/get-students',
 };

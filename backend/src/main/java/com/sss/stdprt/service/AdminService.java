@@ -1,6 +1,7 @@
 package com.sss.stdprt.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -9,14 +10,17 @@ import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
 import com.sss.stdprt.beans.GroupDto;
 import com.sss.stdprt.beans.SeriesDto;
+import com.sss.stdprt.beans.StudentDto;
 import com.sss.stdprt.domain.Department;
 import com.sss.stdprt.domain.Faculty;
 import com.sss.stdprt.domain.Group;
 import com.sss.stdprt.domain.Series;
+import com.sss.stdprt.domain.Student;
 import com.sss.stdprt.repository.DepartmentRepository;
 import com.sss.stdprt.repository.FacultyRepository;
 import com.sss.stdprt.repository.GroupRepository;
 import com.sss.stdprt.repository.SeriesRepository;
+import com.sss.stdprt.repository.StudentRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -27,6 +31,7 @@ public class AdminService {
 	private final DepartmentRepository departmentRepository;
 	private final SeriesRepository seriesRepository;
 	private final GroupRepository groupRepository;
+	private final StudentRepository studentRepository;
 
 	public FacultyDto addFaculty(String name) {
 		Faculty faculty = facultyRepository.findByNameIgnoreCase(name);
@@ -122,4 +127,62 @@ public class AdminService {
 
 		return groupDtos;
 	}
+
+	public StudentDto addStudent(StudentDto studentDto) {
+		Student student = studentRepository.findByCnpIgnoreCaseAndGrpId(studentDto.getCnp(), studentDto.getGroup().getGrpId());
+		
+		if (student != null) {
+			return Student.entityToDto(student, false);
+		}
+		
+		student = new Student();
+		student.setFirstName(studentDto.getFirstName());
+		student.setLastName(studentDto.getLastName());
+		student.setFatherInitial(studentDto.getFatherInitial());
+		student.setCnp(studentDto.getCnp());
+		student.setPhoneNumber(studentDto.getPhoneNumber());
+		student.setStudyYear(studentDto.getStudyYear());
+		student.setGrpId(studentDto.getGroup().getGrpId());
+		
+		String userName = findValidUsername(studentDto);
+		student.setUserName(userName);
+		student.setEmail(userName.concat("@ipsssnieksss.onmicrosoft.com"));
+		
+		Student newStudent = studentRepository.save(student);
+		return Student.entityToDto(newStudent, false);
+	}
+
+	private String findValidUsername(StudentDto studentDto) {
+		String firstName = studentDto.getFirstName().toLowerCase();
+		String lastName = studentDto.getLastName().toLowerCase();
+		
+		String[] firstNames = firstName.split("-");
+		for (String name : firstNames) {
+			String user = name.concat(".").concat(lastName);
+			Student student = studentRepository.findByUserName(user);
+			if (student == null) {
+				return user;
+			}
+		}
+		
+		String user = firstNames[0].concat(".").concat(lastName);
+		Random random = new Random();
+		while (true) {
+			Integer randId = random.nextInt(10000);
+			String randUser = user.concat(String.format("%04d", randId));
+			Student student = studentRepository.findByUserName(randUser);
+			if (student == null) {
+				return randUser;
+			}
+		}
+	}
+
+	public List<StudentDto> getStudents(Integer grpId) {
+		List<Student> students = studentRepository.findByGrpId(grpId);
+
+		List<StudentDto> studentDtos = students.stream().map(ent -> Student.entityToDto(ent, true)).collect(Collectors.toList());
+
+		return studentDtos;
+	}
+
 }

@@ -56,9 +56,12 @@ public class Student {
 
     @Column(name="EMAIL")
     private String email;
+    
+    @Column(name="GRP_ID")
+    private Integer grpId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="GRP_ID")
+    @JoinColumn(name="GRP_ID", insertable = false, updatable = false)
     private Group group;
 
     @Column(name="STDY_YR")

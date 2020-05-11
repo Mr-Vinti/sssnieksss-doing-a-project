@@ -11,6 +11,7 @@ import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
 import com.sss.stdprt.beans.GroupDto;
 import com.sss.stdprt.beans.SeriesDto;
+import com.sss.stdprt.beans.StudentDto;
 import com.sss.stdprt.service.AdminService;
 
 import io.swagger.annotations.Api;
@@ -111,6 +112,28 @@ public class AdminController {
 		List<GroupDto> groups = adminService.getGroups(srsId);
 		
 		return ResponseEntity.ok(groups);
+	}
+
+	@ApiOperation("Add Student Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/add-student")
+	public ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto student) {
+		StudentDto newStudentDto = adminService.addStudent(student);
+		
+		return ResponseEntity.ok(newStudentDto);
+	}
+
+	@ApiOperation("Get Students Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/get-students")
+	public ResponseEntity<List<StudentDto>> getStudents(@RequestBody Integer studId) {
+		List<StudentDto> students = adminService.getStudents(studId);
+		
+		return ResponseEntity.ok(students);
 	}
 
 }

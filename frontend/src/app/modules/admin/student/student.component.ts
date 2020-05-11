@@ -7,26 +7,28 @@ import { FacultyModel } from "../../../shared/models/faculty.model";
 import { SeriesModel } from "../../../shared/models/series.model";
 import { DepartmentModel } from "../../../shared/models/department.model";
 import { FacultyService } from "../../../core/http/admin/faculty.service";
-import { GroupService } from "../../../core/http/admin/group.service";
 import { GroupModel } from "../../../shared/models/group.model";
 import { Router } from "@angular/router";
+import { StudentService } from "../../../core/http/admin/student.service";
+import { StudentModel } from "../../../shared/models/student.model";
 
 @Component({
-  selector: "app-group",
-  templateUrl: "./group.component.html",
-  styleUrls: ["./group.component.scss"],
+  selector: "app-student",
+  templateUrl: "./student.component.html",
+  styleUrls: ["./student.component.scss"],
 })
-export class GroupComponent implements OnInit {
+export class StudentComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
   facultyList: Array<FacultyModel> = null;
   departmentList: Array<DepartmentModel> = null;
   seriesList: Array<SeriesModel> = null;
+  groupList: Array<GroupModel> = null;
 
   constructor(
     private fb: FormBuilder,
-    private service: GroupService,
+    private service: StudentService,
     private facultyService: FacultyService,
     private router: Router,
     public dialog: MatDialog
@@ -55,9 +57,23 @@ export class GroupComponent implements OnInit {
   private initializePage(option: string): void {
     if (option == "add") {
       this.matForm = this.fb.group({
-        name: [
+        faculty: ["", [Validators.required], []],
+        department: ["", [Validators.required], []],
+        series: ["", [Validators.required], []],
+        group: ["", [Validators.required], []],
+        firstName: [
           "",
-          [Validators.required, Validators.pattern("^[A-Z0-9]*$")],
+          [Validators.required, Validators.pattern("^[A-Z][-a-zA-Z]*$")],
+          [],
+        ],
+        lastName: [
+          "",
+          [Validators.required, Validators.pattern("^[A-Z][-a-zA-Z]*$")],
+          [],
+        ],
+        fthrInit: [
+          "",
+          [Validators.required, Validators.pattern("^[A-Z]*$")],
           [],
         ],
         stdyYr: [
@@ -65,13 +81,21 @@ export class GroupComponent implements OnInit {
           [Validators.required, Validators.pattern("^[1-9]*$")],
           [],
         ],
-        faculty: ["", [Validators.required], []],
-        department: ["", [Validators.required], []],
-        series: ["", [Validators.required], []],
+        cnp: ["", [Validators.required, Validators.pattern("^[0-9]{13}$")], []],
+        phnNbr: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              "^[+]?[0-9]{10,15}$"
+            ),
+          ],
+          [],
+        ],
       });
     } else {
       this.matForm = this.fb.group({
-        group: ["", [Validators.required], []],
+        student: ["", [Validators.required], []],
       });
     }
   }
@@ -130,6 +154,26 @@ export class GroupComponent implements OnInit {
     }
   }
 
+  loadGroups(event): void {
+    this.groupList = event.value.groupList;
+
+    if (this.groupList.length == 0) {
+      this.openConfirmDialog(
+        "There is no group for this series. Please create a group first.",
+        false,
+        true
+      )
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm.event == "Yes") {
+            this.router.navigate(["admin/group"], {
+              state: { data: "add" },
+            });
+          }
+        });
+    }
+  }
+
   updtStdyYear(event): void {
     this.matForm.controls.stdyYr.setValue(event.value.stdyYr);
   }
@@ -141,36 +185,45 @@ export class GroupComponent implements OnInit {
     this.option = option;
   }
 
-  addGroup(): void {
+  addStudent(): void {
     if (!this.matForm.valid) {
       this.matForm.markAsTouched();
       return;
     }
 
     let dialogRef = this.openDialog("", true);
-    let groupModel: GroupModel = new GroupModel();
+    let studentModel: StudentModel = new StudentModel();
 
-    groupModel.name = this.matForm.controls.name.value;
-    groupModel.series = this.matForm.controls.series.value;
+    studentModel.firstName = this.matForm.controls.firstName.value;
+    studentModel.lastName = this.matForm.controls.lastName.value;
+    studentModel.fatherInitial = this.matForm.controls.fthrInit.value;
+    studentModel.cnp = this.matForm.controls.cnp.value;
+    studentModel.phoneNumber = this.matForm.controls.phnNbr.value;
+    studentModel.studyYear = this.matForm.controls.stdyYr.value;
+    studentModel.group = this.matForm.controls.group.value;
 
-    this.service.addGroup(groupModel).subscribe((response) => {
+    this.service.addStudent(studentModel).subscribe((response) => {
       dialogRef.close();
-      let group: GroupModel = response;
-      if (group.studentsList == null) {
+      let student: StudentModel = response;
+      if (student.contractList == null) {
         this.openDialog(
           "Successfully created the new " +
-            group.name +
-            " group with id " +
-            group.grpId +
+            student.firstName +
+            " " +
+            student.lastName +
+            " student with id " +
+            student.stdId +
             ".",
           false
         );
       } else {
         this.openDialog(
-          "Group " +
-            group.name +
+          "Student " +
+            student.firstName +
+            " " +
+            student.lastName +
             " already exists with id " +
-            group.grpId +
+            student.stdId +
             ".",
           false
         );

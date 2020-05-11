@@ -19,6 +19,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { SeriesComponent } from "./series/series.component";
 import { DepartmentComponent } from "./department/department.component";
 import { GroupComponent } from "./group/group.component";
+import { StudentComponent } from "./student/student.component";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { GroupComponent } from "./group/group.component";
     DepartmentComponent,
     SeriesComponent,
     GroupComponent,
+    StudentComponent,
   ],
   imports: [
     CommonModule,
