@@ -138,14 +138,6 @@ export class SeriesComponent implements OnInit {
     this.initializeDatasource();
     this.optionPicked = true;
     this.option = option;
-
-    if (option == "edit") {
-      let dialogRef = this.openDialog("", true);
-      this.facultyService.getFaculties().subscribe((response) => {
-        dialogRef.close();
-        this.facultyList = response;
-      });
-    }
   }
 
   addSeries(): void {
@@ -187,6 +179,11 @@ export class SeriesComponent implements OnInit {
   }
 
   showSeries(): void {
+    if (!this.matForm.valid) {
+      this.matForm.markAsTouched();
+      return;
+    }
+
     this.showPressed = true;
     this.openSeries = this.matForm.controls.series.value;
     this.updtForm.controls.name.setValue(this.openSeries.name);
@@ -202,6 +199,8 @@ export class SeriesComponent implements OnInit {
     let seriesModel: SeriesModel = this.openSeries;
     seriesModel.name = this.updtForm.controls.name.value;
     seriesModel.stdyYr = this.updtForm.controls.stdyYr.value;
+    seriesModel.dept = this.matForm.controls.department.value;
+    seriesModel.dept.seriesList = null;
 
     this.openConfirmDialog(
       "Are you sure you want to update this series?",
@@ -225,8 +224,8 @@ export class SeriesComponent implements OnInit {
                     "Successfully updated this series",
                     false
                   );
-                } else if (err.error.text == "Series already exists") {
-                  this.openDialog("Series already exists", false);
+                } else if (err.error.text.includes("Series for the")) {
+                  this.openDialog(err.error.text, false);
                 } else {
                   this.openDialog(
                     "Unexpected error occured: " + err.error.text,

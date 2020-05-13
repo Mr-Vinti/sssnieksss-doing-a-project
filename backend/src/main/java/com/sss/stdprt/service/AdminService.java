@@ -189,7 +189,7 @@ public class AdminService {
 		Series newSeries = seriesRepository.findByNameIgnoreCaseAndDeptIdAndStdyYr(series.getName(), series.getDept().getDeptId(), series.getStdyYr());
 		
 		if (newSeries != null) {
-			return "Series for the " + series.getStdyYr() +  " study year already exists in this department.";
+			return "Series for the study year " + series.getStdyYr() +  " already exists in this department.";
 		}
 		
 		Optional<Series> seriesOpt = seriesRepository.findById(series.getSrsId());

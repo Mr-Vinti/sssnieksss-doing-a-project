@@ -116,14 +116,6 @@ export class DepartmentComponent implements OnInit {
     this.initializeDatasource();
     this.optionPicked = true;
     this.option = option;
-
-    if (option == "edit") {
-      let dialogRef = this.openDialog("", true);
-      this.facultyService.getFaculties().subscribe((response) => {
-        dialogRef.close();
-        this.facultyList = response;
-      });
-    }
   }
 
   addDepartment(): void {
@@ -171,6 +163,11 @@ export class DepartmentComponent implements OnInit {
   }
 
   showDepartment(): void {
+    if (!this.matForm.valid) {
+      this.matForm.markAsTouched();
+      return;
+    }
+
     this.showPressed = true;
     this.openDepartment = this.matForm.controls.department.value;
     this.updtForm.controls.name.setValue(this.openDepartment.name);
@@ -184,6 +181,8 @@ export class DepartmentComponent implements OnInit {
 
     let departmentModel: DepartmentModel = this.openDepartment;
     departmentModel.name = this.updtForm.controls.name.value;
+    departmentModel.faculty = this.matForm.controls.faculty.value;
+    departmentModel.faculty.departmentList = null;
 
     this.openConfirmDialog(
       "Are you sure you want to update this department?",
@@ -207,8 +206,8 @@ export class DepartmentComponent implements OnInit {
                     "Successfully updated this department",
                     false
                   );
-                } else if (err.error.text == "Department already exists") {
-                  this.openDialog("Department already exists", false);
+                } else if (err.error.text.includes("Department already exists")) {
+                  this.openDialog(err.error.text, false);
                 } else {
                   this.openDialog(
                     "Unexpected error occured: " + err.error.text,
