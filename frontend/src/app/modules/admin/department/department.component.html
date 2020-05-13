@@ -82,7 +82,7 @@
       </form>
     </div>
   </ng-container>
-  <ng-container *ngIf="option == 'edit' && departmentList != null">
+  <ng-container *ngIf="option == 'edit'">
     <div class="form">
       <form
         [formGroup]="matForm"
@@ -90,8 +90,18 @@
         fxLayout.lt-md="column"
         fxLayoutGap="30px"
         fxLayoutGap.lt-md="10px"
+        (ngSubmit)="showDepartment()"
       >
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Faculty</mat-label>
+          <mat-select formControlName="faculty" required (selectionChange)="loadDepts($event)">
+            <mat-option *ngFor="let fac of facultyList" [value]="fac">
+              {{ fac.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
           <mat-label>Department</mat-label>
           <mat-select formControlName="department" required>
             <mat-option *ngFor="let dept of departmentList" [value]="dept">
@@ -99,7 +109,76 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="10%"
+          class="btn"
+        >
+          Show
+        </button>
       </form>
+
+      <ng-container *ngIf="showPressed">
+        <form fxLayout="column" [formGroup]="updtForm">
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Department Name</mat-label>
+              <input matInput type="text" formControlName="name" required />
+
+              <mat-error *ngIf="updtForm.controls.name.invalid">
+                You must enter a department name with only letters and spaces
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.name.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.name.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="updateDepartment()"
+            >
+              Update
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="deleteDepartment()"
+            >
+              Delete
+            </button>
+          </div>
+        </form>
+      </ng-container>
     </div>
   </ng-container>
 </ng-container>

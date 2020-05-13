@@ -21,4 +21,16 @@ export class DepartmentService {
 
     return this.http.post<Array<DepartmentModel>>(url, facId);
   }
+
+  updateDepartment(department: DepartmentModel) {
+    const url = environment.updateDepartment;
+
+    return this.http.post<any>(url, department);
+  }
+
+  deleteFaculty(deptId: number) {
+    const url = environment.deleteDepartment;
+
+    return this.http.post<any>(url, deptId);
+  }
 }

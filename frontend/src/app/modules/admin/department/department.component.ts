@@ -7,6 +7,7 @@ import { Dialog } from "../../../shared/models/dialog.model";
 import { FacultyService } from "../../../core/http/admin/faculty.service";
 import { DepartmentService } from "../../../core/http/admin/department.service";
 import { FacultyModel } from "../../../shared/models/faculty.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-department",
@@ -17,13 +18,17 @@ export class DepartmentComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
+  updtForm: FormGroup;
   facultyList: Array<FacultyModel> = null;
   departmentList: Array<DepartmentModel> = null;
+  showPressed: boolean = false;
+  openDepartment: DepartmentModel;
 
   constructor(
     private fb: FormBuilder,
     private service: DepartmentService,
     private facultyService: FacultyService,
+    private router: Router,
     public dialog: MatDialog
   ) {}
 
@@ -31,6 +36,18 @@ export class DepartmentComponent implements OnInit {
     return this.dialog.open(ModalDialogComponent, {
       width: "auto",
       data: new Dialog(message, isLoading),
+      disableClose: true,
+    });
+  }
+
+  private openConfirmDialog(
+    message: string,
+    isLoading: boolean,
+    confirmNeeded: boolean
+  ): any {
+    return this.dialog.open(ModalDialogComponent, {
+      width: "auto",
+      data: new Dialog(message, isLoading, "", confirmNeeded),
       disableClose: true,
     });
   }
@@ -47,7 +64,15 @@ export class DepartmentComponent implements OnInit {
       });
     } else {
       this.matForm = this.fb.group({
+        faculty: ["", [Validators.required], []],
         department: ["", [Validators.required], []],
+      });
+      this.updtForm = this.fb.group({
+        name: [
+          "",
+          [Validators.required, Validators.pattern("^[a-zA-Z\\s]*$")],
+          [],
+        ],
       });
     }
   }
@@ -66,19 +91,39 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
+  loadDepts(event) {
+    this.departmentList = event.value.departmentList;
+
+    if (this.departmentList.length == 0) {
+      this.openConfirmDialog(
+        "There is no department for this faculty. Please create a department first.",
+        false,
+        true
+      )
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm.event == "Yes") {
+            this.router.navigate(["admin/department"], {
+              state: { data: "add" },
+            });
+          }
+        });
+    }
+  }
+
   selectOption(option: string): void {
     this.initializePage(option);
     this.initializeDatasource();
     this.optionPicked = true;
     this.option = option;
 
-    // if (option == "edit") {
-    //   let dialogRef = this.openDialog("", true);
-    //   this.service.getDepartments().subscribe((response) => {
-    //     dialogRef.close();
-    //     this.departmentList = response;
-    //   });
-    // }
+    if (option == "edit") {
+      let dialogRef = this.openDialog("", true);
+      this.facultyService.getFaculties().subscribe((response) => {
+        dialogRef.close();
+        this.facultyList = response;
+      });
+    }
   }
 
   addDepartment(): void {
@@ -123,5 +168,109 @@ export class DepartmentComponent implements OnInit {
         );
       }
     });
+  }
+
+  showDepartment(): void {
+    this.showPressed = true;
+    this.openDepartment = this.matForm.controls.department.value;
+    this.updtForm.controls.name.setValue(this.openDepartment.name);
+  }
+
+  updateDepartment(): void {
+    if (!this.updtForm.valid) {
+      this.updtForm.markAsTouched();
+      return;
+    }
+
+    let departmentModel: DepartmentModel = this.openDepartment;
+    departmentModel.name = this.updtForm.controls.name.value;
+
+    this.openConfirmDialog(
+      "Are you sure you want to update this faculty?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.updateDepartment(departmentModel).subscribe(
+            () => {
+              dialogRef.close();
+              this.openDialog("Successfully updated this department", false);
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  this.openDialog("Successfully updated this department", false);
+                } else if (err.error.text == "Department already exists") {
+                  this.openDialog("Department already exists", false);
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
+  }
+
+  deleteFaculty(): void {
+    this.openConfirmDialog(
+      "Are you sure you want to delete this department?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.deleteFaculty(this.openDepartment.deptId).subscribe(
+            () => {
+              dialogRef.close();
+              dialogRef = this.openDialog(
+                "Successfully deleted this department",
+                false
+              );
+              dialogRef.afterClosed().subscribe(() => {
+                this.selectOption("edit");
+              });
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  dialogRef = this.openDialog(
+                    "Successfully deleted this department",
+                    false
+                  );
+                  dialogRef.afterClosed().subscribe(() => {
+                    this.selectOption("edit");
+                  });
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
   }
 }
