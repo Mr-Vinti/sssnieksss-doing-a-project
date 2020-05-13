@@ -21,4 +21,16 @@ export class GroupService {
 
     return this.http.post<Array<GroupModel>>(url, srsId);
   }
+
+  updateGroup(group: GroupModel) {
+    const url = environment.updateGroup;
+
+    return this.http.post<any>(url, group);
+  }
+
+  deleteGroup(grpId: number) {
+    const url = environment.deleteGroup;
+
+    return this.http.post<any>(url, grpId);
+  }
 }

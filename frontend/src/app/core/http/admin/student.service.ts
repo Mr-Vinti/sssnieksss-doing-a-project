@@ -21,4 +21,16 @@ export class StudentService {
 
     return this.http.post<Array<StudentModel>>(url, grpId);
   }
+
+  updateStudent(student: StudentModel) {
+    const url = environment.updateStudent;
+
+    return this.http.post<any>(url, student);
+  }
+
+  deleteStudent(stdId: number) {
+    const url = environment.deleteStudent;
+
+    return this.http.post<any>(url, stdId);
+  }
 }

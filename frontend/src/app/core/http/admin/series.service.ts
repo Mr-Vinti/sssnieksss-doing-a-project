@@ -22,4 +22,16 @@ export class SeriesService {
 
     return this.http.post<Array<SeriesModel>>(url, deptId);
   }
+
+  updateSeries(series: SeriesModel) {
+    const url = environment.updateSeries;
+
+    return this.http.post<any>(url, series);
+  }
+
+  deleteSeries(srsId: number) {
+    const url = environment.deleteSeries;
+
+    return this.http.post<any>(url, srsId);
+  }
 }

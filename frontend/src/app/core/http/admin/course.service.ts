@@ -21,4 +21,16 @@ export class CourseService {
 
     return this.http.post<Array<CourseModel>>(url, srsId);
   }
+
+  updateCourse(course: CourseModel) {
+    const url = environment.updateCourse;
+
+    return this.http.post<any>(url, course);
+  }
+
+  deleteCourse(crsId: number) {
+    const url = environment.deleteCourse;
+
+    return this.http.post<any>(url, crsId);
+  }
 }
