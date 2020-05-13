@@ -19,8 +19,12 @@ export class SeriesComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
+  updtForm: FormGroup;
   facultyList: Array<FacultyModel> = null;
   departmentList: Array<DepartmentModel> = null;
+  seriesList: Array<SeriesModel> = null;
+  showPressed: boolean = false;
+  openSeries: SeriesModel;
 
   constructor(
     private fb: FormBuilder,
@@ -60,7 +64,17 @@ export class SeriesComponent implements OnInit {
       });
     } else {
       this.matForm = this.fb.group({
+        faculty: ["", [Validators.required], []],
+        department: ["", [Validators.required], []],
         series: ["", [Validators.required], []],
+      });
+      this.updtForm = this.fb.group({
+        name: [
+          "",
+          [Validators.required, Validators.pattern("^[a-zA-Z\\s]*$")],
+          [],
+        ],
+        stdyYr: ["", [Validators.required, Validators.pattern("^[1-9]*$")], []],
       });
     }
   }
@@ -99,11 +113,39 @@ export class SeriesComponent implements OnInit {
     }
   }
 
+  loadSeries(event): void {
+    this.seriesList = event.value.seriesList;
+
+    if (this.seriesList.length == 0) {
+      this.openConfirmDialog(
+        "There is no series for this department. Please create a series first.",
+        false,
+        true
+      )
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm.event == "Yes") {
+            this.router.navigate(["admin/series"], {
+              state: { data: "add" },
+            });
+          }
+        });
+    }
+  }
+
   selectOption(option: string): void {
     this.initializePage(option);
     this.initializeDatasource();
     this.optionPicked = true;
     this.option = option;
+
+    if (option == "edit") {
+      let dialogRef = this.openDialog("", true);
+      this.facultyService.getFaculties().subscribe((response) => {
+        dialogRef.close();
+        this.facultyList = response;
+      });
+    }
   }
 
   addSeries(): void {
@@ -142,5 +184,114 @@ export class SeriesComponent implements OnInit {
         );
       }
     });
+  }
+
+  showSeries(): void {
+    this.showPressed = true;
+    this.openSeries = this.matForm.controls.series.value;
+    this.updtForm.controls.name.setValue(this.openSeries.name);
+    this.updtForm.controls.stdyYr.setValue(this.openSeries.stdyYr);
+  }
+
+  updateSeries(): void {
+    if (!this.updtForm.valid) {
+      this.updtForm.markAsTouched();
+      return;
+    }
+
+    let seriesModel: SeriesModel = this.openSeries;
+    seriesModel.name = this.updtForm.controls.name.value;
+    seriesModel.stdyYr = this.updtForm.controls.stdyYr.value;
+
+    this.openConfirmDialog(
+      "Are you sure you want to update this series?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.updateSeries(seriesModel).subscribe(
+            () => {
+              dialogRef.close();
+              this.openDialog("Successfully updated this series", false);
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  this.openDialog(
+                    "Successfully updated this series",
+                    false
+                  );
+                } else if (err.error.text == "Series already exists") {
+                  this.openDialog("Series already exists", false);
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
+  }
+
+  deleteSeries(): void {
+    this.openConfirmDialog(
+      "Are you sure you want to delete this series?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.deleteSeries(this.openSeries.srsId).subscribe(
+            () => {
+              dialogRef.close();
+              dialogRef = this.openDialog(
+                "Successfully deleted this series",
+                false
+              );
+              dialogRef.afterClosed().subscribe(() => {
+                this.selectOption("edit");
+              });
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  dialogRef = this.openDialog(
+                    "Successfully deleted this series",
+                    false
+                  );
+                  dialogRef.afterClosed().subscribe(() => {
+                    this.selectOption("edit");
+                  });
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
   }
 }

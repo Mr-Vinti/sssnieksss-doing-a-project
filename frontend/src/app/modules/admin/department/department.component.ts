@@ -186,7 +186,7 @@ export class DepartmentComponent implements OnInit {
     departmentModel.name = this.updtForm.controls.name.value;
 
     this.openConfirmDialog(
-      "Are you sure you want to update this faculty?",
+      "Are you sure you want to update this department?",
       false,
       true
     )
@@ -203,7 +203,10 @@ export class DepartmentComponent implements OnInit {
               dialogRef.close();
               if (err.status == 200) {
                 if (err.error.text == "Success") {
-                  this.openDialog("Successfully updated this department", false);
+                  this.openDialog(
+                    "Successfully updated this department",
+                    false
+                  );
                 } else if (err.error.text == "Department already exists") {
                   this.openDialog("Department already exists", false);
                 } else {

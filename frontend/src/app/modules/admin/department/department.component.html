@@ -94,11 +94,19 @@
       >
         <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
           <mat-label>Faculty</mat-label>
-          <mat-select formControlName="faculty" required (selectionChange)="loadDepts($event)">
+          <mat-select
+            formControlName="faculty"
+            required
+            (selectionChange)="loadDepts($event)"
+          >
             <mat-option *ngFor="let fac of facultyList" [value]="fac">
               {{ fac.name }}
             </mat-option>
           </mat-select>
+
+          <mat-error *ngIf="matForm.controls.faculty.invalid">
+            You must select a faculty.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
@@ -108,6 +116,10 @@
               {{ dept.name }}
             </mat-option>
           </mat-select>
+
+          <mat-error *ngIf="matForm.controls.department.invalid">
+            You must select a department.
+          </mat-error>
         </mat-form-field>
 
         <button

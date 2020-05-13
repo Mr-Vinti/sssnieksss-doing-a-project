@@ -87,6 +87,10 @@
               {{ fac.name }}
             </mat-option>
           </mat-select>
+
+          <mat-error *ngIf="matForm.controls.faculty.invalid">
+            You must select a faculty.
+          </mat-error>
         </mat-form-field>
 
         <button
