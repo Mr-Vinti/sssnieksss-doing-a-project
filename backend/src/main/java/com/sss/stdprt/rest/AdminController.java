@@ -93,6 +93,28 @@ public class AdminController {
 		return ResponseEntity.ok(departments);
 	}
 	
+	@ApiOperation("Update Department Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-department")
+	public ResponseEntity<String> updateDepartment(@RequestBody DepartmentDto department) {
+		String response = adminService.updateDepartment(department);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Department Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-department")
+	public ResponseEntity<String> deleteDepartment(@RequestBody Integer deptId) {
+		String response = adminService.deleteDepartment(deptId);
+		
+		return ResponseEntity.ok(response);
+	}
+	
 	@ApiOperation("Add Series Method")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
 		@ApiResponse(code = 400, message = "Malformed request"),
@@ -113,6 +135,28 @@ public class AdminController {
 		List<SeriesDto> series = adminService.getSeries(deptId);
 		
 		return ResponseEntity.ok(series);
+	}
+	
+	@ApiOperation("Update Series Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-series")
+	public ResponseEntity<String> updateSeries(@RequestBody SeriesDto series) {
+		String response = adminService.updateSeries(series);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Series Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-series")
+	public ResponseEntity<String> deleteSeries(@RequestBody Integer srsId) {
+		String response = adminService.deleteSeries(srsId);
+		
+		return ResponseEntity.ok(response);
 	}
 
 	@ApiOperation("Add Group Method")
@@ -136,6 +180,28 @@ public class AdminController {
 		
 		return ResponseEntity.ok(groups);
 	}
+	
+	@ApiOperation("Update Group Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-group")
+	public ResponseEntity<String> updateGroup(@RequestBody GroupDto group) {
+		String response = adminService.updateGroup(group);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Group Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-group")
+	public ResponseEntity<String> deleteGroup(@RequestBody Integer grpId) {
+		String response = adminService.deleteGroup(grpId);
+		
+		return ResponseEntity.ok(response);
+	}
 
 	@ApiOperation("Add Student Method")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
@@ -158,6 +224,28 @@ public class AdminController {
 		
 		return ResponseEntity.ok(students);
 	}
+	
+	@ApiOperation("Update Student Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-student")
+	public ResponseEntity<String> updateStudent(@RequestBody StudentDto student) {
+		String response = adminService.updateStudent(student);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Student Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-student")
+	public ResponseEntity<String> deleteStudent(@RequestBody Integer stdId) {
+		String response = adminService.deleteStudent(stdId);
+		
+		return ResponseEntity.ok(response);
+	}
 
 	@ApiOperation("Add Course Method")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
@@ -179,5 +267,27 @@ public class AdminController {
 		List<CourseDto> courses = adminService.getCourses(crsId);
 		
 		return ResponseEntity.ok(courses);
+	}
+	
+	@ApiOperation("Update Course Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/update-course")
+	public ResponseEntity<String> updateCourse(@RequestBody CourseDto course) {
+		String response = adminService.updateCourse(course);
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation("Delete Course Method")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successful"),
+		@ApiResponse(code = 400, message = "Malformed request"),
+		@ApiResponse(code = 500, message = "Internal error") })
+	@PostMapping("/admin/delete-course")
+	public ResponseEntity<String> deleteCourse(@RequestBody Integer crsId) {
+		String response = adminService.deleteCourse(crsId);
+		
+		return ResponseEntity.ok(response);
 	}
 }

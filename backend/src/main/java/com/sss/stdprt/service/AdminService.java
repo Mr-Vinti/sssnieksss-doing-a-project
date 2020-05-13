@@ -123,6 +123,42 @@ public class AdminService {
 
 		return departmentDtos;
 	}
+	
+	public String updateDepartment(DepartmentDto department) {
+		Department newDepartment = departmentRepository.findByNameIgnoreCaseAndFacId(department.getName(), department.getFaculty().getFacId());
+		
+		if (newDepartment != null) {
+			return "Department already exists at this faculty.";
+		}
+		
+		Optional<Department> deptOpt = departmentRepository.findById(department.getDeptId());
+		
+		if (deptOpt.isPresent()) {
+			Department dept = deptOpt.get();
+			
+			dept.setName(department.getName());
+			
+			departmentRepository.save(dept);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+	public String deleteDepartment(Integer deptId) {
+		Optional<Department> deptOpt = departmentRepository.findById(deptId);
+		
+		if (deptOpt.isPresent()) {
+			Department dept = deptOpt.get();
+			
+			departmentRepository.delete(dept);
+			
+			return "Success";
+		}
+		
+		return "Fail";
+	}
 
 	public SeriesDto addSeries(SeriesDto seriesDto) {
 		Series series = seriesRepository.findByNameIgnoreCaseAndDeptIdAndStdyYr(seriesDto.getName(), seriesDto.getDept().getDeptId(),
@@ -149,6 +185,43 @@ public class AdminService {
 		return seriesDtos;
 	}
 	
+	public String updateSeries(SeriesDto series) {
+		Series newSeries = seriesRepository.findByNameIgnoreCaseAndDeptIdAndStdyYr(series.getName(), series.getDept().getDeptId(), series.getStdyYr());
+		
+		if (newSeries != null) {
+			return "Series for the " + series.getStdyYr() +  " study year already exists in this department.";
+		}
+		
+		Optional<Series> seriesOpt = seriesRepository.findById(series.getSrsId());
+		
+		if (seriesOpt.isPresent()) {
+			Series srs = seriesOpt.get();
+			
+			srs.setName(series.getName());
+			srs.setStdyYr(series.getStdyYr());
+			
+			seriesRepository.save(srs);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+	public String deleteSeries(Integer seriestId) {
+		Optional<Series> seriesOpt = seriesRepository.findById(seriestId);
+		
+		if (seriesOpt.isPresent()) {
+			Series series = seriesOpt.get();
+			
+			seriesRepository.delete(series);
+			
+			return "Success";
+		}
+		
+		return "Fail";
+	}
+	
 	public GroupDto addGroup(GroupDto groupDto) {
 		Group group = groupRepository.findByNameIgnoreCaseAndSrsId(groupDto.getName(), groupDto.getSeries().getSrsId());
 		
@@ -170,6 +243,42 @@ public class AdminService {
 		List<GroupDto> groupDtos = groups.stream().map(ent -> Group.entityToDto(ent, true)).collect(Collectors.toList());
 
 		return groupDtos;
+	}
+	
+	public String updateGroup(GroupDto group) {
+		Group newGroup = groupRepository.findByNameIgnoreCaseAndSrsId(group.getName(), group.getSeries().getSrsId());
+		
+		if (newGroup != null) {
+			return "Group already exists in the series " + group.getSeries().getStdyYr() + group.getSeries().getName();
+		}
+		
+		Optional<Group> groupOpt = groupRepository.findById(group.getGrpId());
+		
+		if (groupOpt.isPresent()) {
+			Group grp = groupOpt.get();
+			
+			grp.setName(group.getName());
+			
+			groupRepository.save(grp);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+	public String deleteGroup(Integer grpId) {
+		Optional<Group> grpOpt = groupRepository.findById(grpId);
+		
+		if (grpOpt.isPresent()) {
+			Group grp = grpOpt.get();
+			
+			groupRepository.delete(grp);
+			
+			return "Success";
+		}
+		
+		return "Fail";
 	}
 
 	public StudentDto addStudent(StudentDto studentDto) {
@@ -228,6 +337,56 @@ public class AdminService {
 
 		return studentDtos;
 	}
+	
+	public String updateStudent(StudentDto student) {
+		Student newStudent = studentRepository.findByCnpIgnoreCaseAndGrpId(student.getCnp(), student.getGroup().getGrpId());
+		
+		if (newStudent != null) {
+			return "Student already exists in this group " + student.getGroup().getName();
+		}
+		
+		Optional<Student> studentOpt = studentRepository.findById(student.getStdId());
+		
+		if (studentOpt.isPresent()) {
+			Student std = studentOpt.get();
+			
+			std.setCnp(student.getCnp());
+			
+			if (!student.getUserName().equals(std.getUserName())) {
+				if (studentRepository.findByUserName(student.getUserName()) != null) {
+					return "Student with that username already exists.";
+				}
+				std.setUserName(student.getUserName());
+				std.setEmail(student.getUserName().concat("@ipsssnieksss.onmicrosoft.com"));
+			}
+			
+			std.setFatherInitial(student.getFatherInitial());
+			std.setFirstName(student.getFirstName());
+			std.setLastName(student.getLastName());
+			std.setPhoneNumber(student.getPhoneNumber());
+			std.setStudyYear(std.getStudyYear());
+			
+			studentRepository.save(std);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+	public String deleteStudent(Integer stdId) {
+		Optional<Student> stdOpt = studentRepository.findById(stdId);
+		
+		if (stdOpt.isPresent()) {
+			Student std = stdOpt.get();
+			
+			studentRepository.delete(std);
+			
+			return "Success";
+		}
+		
+		return "Fail";
+	}
 
 	public CourseDto addCourse(CourseDto courseDto) {
 		Course course = courseRepository.findByNameIgnoreCaseAndSrsId(courseDto.getName(), courseDto.getSeries().getSrsId());
@@ -256,5 +415,45 @@ public class AdminService {
 		List<CourseDto> courseDtos = courses.stream().map(ent -> Course.entityToDto(ent, true)).collect(Collectors.toList());
 
 		return courseDtos;
+	}
+	
+	public String updateCourse(CourseDto course) {
+		Course newCourse = courseRepository.findByNameIgnoreCaseAndSrsId(course.getName(), course.getSeries().getSrsId());
+		
+		if (newCourse != null) {
+			return "Course already exists for the series " + course.getStudyYear() + course.getSeries().getName();
+		}
+		
+		Optional<Course> courseOpt = courseRepository.findById(course.getCrsId());
+		
+		if (courseOpt.isPresent()) {
+			Course crs = courseOpt.get();
+			
+			crs.setName(course.getName());
+			crs.setCreditPoints(course.getCreditPoints());
+			crs.setSemester(course.getSemester());
+			crs.setStudyYear(course.getStudyYear());
+			crs.setTeacher(crs.getTeacher());
+			
+			courseRepository.save(crs);
+			
+			return "Success";
+		}
+
+		return "Fail";
+	}
+	
+	public String deleteCourse(Integer crsId) {
+		Optional<Course> crsOpt = courseRepository.findById(crsId);
+		
+		if (crsOpt.isPresent()) {
+			Course crs = crsOpt.get();
+			
+			courseRepository.delete(crs);
+			
+			return "Success";
+		}
+		
+		return "Fail";
 	}
 }
