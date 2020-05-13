@@ -5,5 +5,5 @@ export class GroupModel {
     grpId: number;
     name: string;
     series: SeriesModel;
-    studentsList: Array<StudentModel>;
+    studentList: Array<StudentModel>;
 };

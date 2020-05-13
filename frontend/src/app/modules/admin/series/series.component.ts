@@ -220,10 +220,7 @@ export class SeriesComponent implements OnInit {
               dialogRef.close();
               if (err.status == 200) {
                 if (err.error.text == "Success") {
-                  this.openDialog(
-                    "Successfully updated this series",
-                    false
-                  );
+                  this.openDialog("Successfully updated this series", false);
                 } else if (err.error.text.includes("Series for the")) {
                   this.openDialog(err.error.text, false);
                 } else {

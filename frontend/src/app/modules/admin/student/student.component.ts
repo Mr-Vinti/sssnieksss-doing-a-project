@@ -21,10 +21,14 @@ export class StudentComponent implements OnInit {
   optionPicked: boolean = false;
   option: string;
   matForm: FormGroup;
+  updtForm: FormGroup;
   facultyList: Array<FacultyModel> = null;
   departmentList: Array<DepartmentModel> = null;
   seriesList: Array<SeriesModel> = null;
   groupList: Array<GroupModel> = null;
+  studentList: Array<StudentModel> = null;
+  showPressed: boolean = false;
+  openStudent: StudentModel;
 
   constructor(
     private fb: FormBuilder,
@@ -84,18 +88,50 @@ export class StudentComponent implements OnInit {
         cnp: ["", [Validators.required, Validators.pattern("^[0-9]{13}$")], []],
         phnNbr: [
           "",
-          [
-            Validators.required,
-            Validators.pattern(
-              "^[+]?[0-9]{10,15}$"
-            ),
-          ],
+          [Validators.required, Validators.pattern("^[+]?[0-9]{10,15}$")],
           [],
         ],
       });
     } else {
       this.matForm = this.fb.group({
+        faculty: ["", [Validators.required], []],
+        department: ["", [Validators.required], []],
+        series: ["", [Validators.required], []],
+        group: ["", [Validators.required], []],
         student: ["", [Validators.required], []],
+      });
+      this.updtForm = this.fb.group({
+        firstName: [
+          "",
+          [Validators.required, Validators.pattern("^[A-Z][-a-zA-Z]*$")],
+          [],
+        ],
+        lastName: [
+          "",
+          [Validators.required, Validators.pattern("^[A-Z][-a-zA-Z]*$")],
+          [],
+        ],
+        fthrInit: [
+          "",
+          [Validators.required, Validators.pattern("^[A-Z]*$")],
+          [],
+        ],
+        stdyYr: [
+          { value: "", disabled: true },
+          [Validators.required, Validators.pattern("^[1-9]*$")],
+          [],
+        ],
+        cnp: ["", [Validators.required, Validators.pattern("^[0-9]{13}$")], []],
+        phnNbr: [
+          "",
+          [Validators.required, Validators.pattern("^[+]?[0-9]{10,15}$")],
+          [],
+        ],
+        userName: [
+          "",
+          [Validators.required, Validators.pattern("^[-a-z.0-9]*$")],
+          [],
+        ],
       });
     }
   }
@@ -174,6 +210,26 @@ export class StudentComponent implements OnInit {
     }
   }
 
+  loadStudents(event): void {
+    this.studentList = event.value.studentList;
+
+    if (this.studentList.length == 0) {
+      this.openConfirmDialog(
+        "There is no student for this group. Please create a student first.",
+        false,
+        true
+      )
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm.event == "Yes") {
+            this.router.navigate(["admin/student"], {
+              state: { data: "add" },
+            });
+          }
+        });
+    }
+  }
+
   updtStdyYear(event): void {
     this.matForm.controls.stdyYr.setValue(event.value.stdyYr);
   }
@@ -229,5 +285,133 @@ export class StudentComponent implements OnInit {
         );
       }
     });
+  }
+
+  showStudent(): void {
+    if (!this.matForm.valid) {
+      this.matForm.markAsTouched();
+      return;
+    }
+
+    this.showPressed = true;
+    this.openStudent = this.matForm.controls.student.value;
+    this.updtForm.controls.firstName.setValue(this.openStudent.firstName);
+    this.updtForm.controls.lastName.setValue(this.openStudent.lastName);
+    this.updtForm.controls.fthrInit.setValue(this.openStudent.fatherInitial);
+    this.updtForm.controls.cnp.setValue(this.openStudent.cnp);
+    this.updtForm.controls.phnNbr.setValue(this.openStudent.phoneNumber);
+    this.updtForm.controls.userName.setValue(this.openStudent.userName);
+    this.updtForm.controls.stdyYr.setValue(
+      this.matForm.controls.series.value.stdyYr
+    );
+  }
+
+  updateStudent(): void {
+    if (!this.updtForm.valid) {
+      this.updtForm.markAsTouched();
+      return;
+    }
+
+    let studentModel: StudentModel = this.openStudent;
+    studentModel.firstName = this.updtForm.controls.firstName.value;
+    studentModel.lastName = this.updtForm.controls.lastName.value;
+    studentModel.fatherInitial = this.updtForm.controls.fthrInit.value;
+    studentModel.cnp = this.updtForm.controls.cnp.value;
+    studentModel.phoneNumber = this.updtForm.controls.phnNbr.value;
+    studentModel.userName = this.updtForm.controls.userName.value;
+    studentModel.group = this.matForm.controls.group.value;
+    studentModel.group.studentList = null;
+
+    this.openConfirmDialog(
+      "Are you sure you want to update this student?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.updateStudent(studentModel).subscribe(
+            () => {
+              dialogRef.close();
+              this.openDialog("Successfully updated this student", false);
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  this.openDialog("Successfully updated this student", false);
+                } else if (err.error.text.includes("Student already exists")) {
+                  this.openDialog(err.error.text, false);
+                } else if (
+                  err.error.text.includes("Student with that username")
+                ) {
+                  this.openDialog(err.error.text, false);
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
+  }
+
+  deleteStudent(): void {
+    this.openConfirmDialog(
+      "Are you sure you want to delete this student?",
+      false,
+      true
+    )
+      .afterClosed()
+      .subscribe((confirm) => {
+        if (confirm.event == "Yes") {
+          let dialogRef = this.openDialog("", true);
+          this.service.deleteStudent(this.openStudent.stdId).subscribe(
+            () => {
+              dialogRef.close();
+              dialogRef = this.openDialog(
+                "Successfully deleted this student",
+                false
+              );
+              dialogRef.afterClosed().subscribe(() => {
+                this.selectOption("edit");
+              });
+            },
+            (err) => {
+              dialogRef.close();
+              if (err.status == 200) {
+                if (err.error.text == "Success") {
+                  dialogRef = this.openDialog(
+                    "Successfully deleted this student",
+                    false
+                  );
+                  dialogRef.afterClosed().subscribe(() => {
+                    this.selectOption("edit");
+                  });
+                } else {
+                  this.openDialog(
+                    "Unexpected error occured: " + err.error.text,
+                    false
+                  );
+                }
+              } else {
+                this.openDialog(
+                  err.error.error + ": " + err.error.message,
+                  false
+                );
+              }
+            }
+          );
+        }
+      });
   }
 }

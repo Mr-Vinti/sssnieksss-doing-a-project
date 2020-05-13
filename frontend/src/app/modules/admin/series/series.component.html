@@ -219,11 +219,11 @@
             <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
               <mat-label>Study Year</mat-label>
               <input matInput type="text" formControlName="stdyYr" required />
-    
+
               <mat-error *ngIf="updtForm.controls.stdyYr.invalid">
                 You must enter a study year with only numbers
               </mat-error>
-    
+
               <button
                 mat-button
                 *ngIf="updtForm.controls.stdyYr.value"

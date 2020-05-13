@@ -339,12 +339,6 @@ public class AdminService {
 	}
 	
 	public String updateStudent(StudentDto student) {
-		Student newStudent = studentRepository.findByCnpIgnoreCaseAndGrpId(student.getCnp(), student.getGroup().getGrpId());
-		
-		if (newStudent != null) {
-			return "Student already exists in this group " + student.getGroup().getName();
-		}
-		
 		Optional<Student> studentOpt = studentRepository.findById(student.getStdId());
 		
 		if (studentOpt.isPresent()) {
@@ -364,7 +358,6 @@ public class AdminService {
 			std.setFirstName(student.getFirstName());
 			std.setLastName(student.getLastName());
 			std.setPhoneNumber(student.getPhoneNumber());
-			std.setStudyYear(std.getStudyYear());
 			
 			studentRepository.save(std);
 			
@@ -432,8 +425,7 @@ public class AdminService {
 			crs.setName(course.getName());
 			crs.setCreditPoints(course.getCreditPoints());
 			crs.setSemester(course.getSemester());
-			crs.setStudyYear(course.getStudyYear());
-			crs.setTeacher(crs.getTeacher());
+			crs.setTeacher(course.getTeacher());
 			
 			courseRepository.save(crs);
 			

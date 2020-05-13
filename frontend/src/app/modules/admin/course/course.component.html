@@ -30,7 +30,7 @@
 </ng-container>
 <ng-container *ngIf="optionPicked">
   <ng-container *ngIf="option == 'add'">
-    <div class="add-form">
+    <div class="form">
       <form fxLayout="column" [formGroup]="matForm" (ngSubmit)="addCourse()">
         <div
           fxLayout="row"
@@ -155,7 +155,12 @@
 
           <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
             <mat-label>Credit Points</mat-label>
-            <input matInput type="text" formControlName="creditPoints" required />
+            <input
+              matInput
+              type="text"
+              formControlName="creditPoints"
+              required
+            />
 
             <mat-error *ngIf="matForm.controls.creditPoints.invalid">
               You must enter a valid number of credit points
@@ -186,5 +191,226 @@
       </form>
     </div>
   </ng-container>
-  <ng-container *ngIf="option == 'edit'">cra edit</ng-container>
+  <ng-container *ngIf="option == 'edit'">
+    <div class="form">
+      <form
+        [formGroup]="matForm"
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        fxLayoutGap="30px"
+        fxLayoutGap.lt-md="10px"
+        (ngSubmit)="showCourse()"
+      >
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Faculty</mat-label>
+          <mat-select
+            formControlName="faculty"
+            required
+            (selectionChange)="loadDepts($event)"
+          >
+            <mat-option *ngFor="let fac of facultyList" [value]="fac">
+              {{ fac.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.faculty.invalid">
+            You must select a faculty.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Department</mat-label>
+          <mat-select
+            formControlName="department"
+            required
+            (selectionChange)="loadSeries($event)"
+          >
+            <mat-option *ngFor="let dept of departmentList" [value]="dept">
+              {{ dept.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.department.invalid">
+            You must select a department.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Series</mat-label>
+          <mat-select
+            formControlName="series"
+            required
+            (selectionChange)="loadCourses($event)"
+          >
+            <mat-option *ngFor="let srs of seriesList" [value]="srs">
+              {{ srs.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.series.invalid">
+            You must select a series.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Course</mat-label>
+          <mat-select formControlName="course" required>
+            <mat-option *ngFor="let crs of courseList" [value]="crs">
+              {{ crs.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.course.invalid">
+            You must select a course.
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="10%"
+          class="btn"
+        >
+          Show
+        </button>
+      </form>
+
+      <ng-container *ngIf="showPressed">
+        <form fxLayout="column" [formGroup]="updtForm">
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Course Name</mat-label>
+              <input matInput type="text" formControlName="name" required />
+
+              <mat-error *ngIf="updtForm.controls.name.invalid">
+                You must enter a course name with only letters
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.name.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.name.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Study Year</mat-label>
+              <input matInput type="text" formControlName="stdyYr" required />
+
+              <mat-error *ngIf="updtForm.controls.stdyYr.invalid">
+                You must enter a study year with only numbers
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.stdyYr.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.stdyYr.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Teacher Name</mat-label>
+              <input matInput type="text" formControlName="teacher" required />
+
+              <mat-error *ngIf="updtForm.controls.teacher.invalid">
+                You must enter a teacher name with only letters and spaces
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.teacher.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.teacher.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Semester</mat-label>
+              <mat-select formControlName="semester" required>
+                <mat-option value="I">I</mat-option>
+                <mat-option value="II">II</mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="updtForm.controls.semester.invalid">
+                You must select a semester
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Credit Points</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="creditPoints"
+                required
+              />
+
+              <mat-error *ngIf="updtForm.controls.creditPoints.invalid">
+                You must enter a valid number of credit points
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.creditPoints.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.creditPoints.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="updateCourse()"
+            >
+              Update
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="deleteCourse()"
+            >
+              Delete
+            </button>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  </ng-container>
 </ng-container>

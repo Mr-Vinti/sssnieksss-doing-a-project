@@ -195,7 +195,7 @@ export class GroupComponent implements OnInit {
     this.service.addGroup(groupModel).subscribe((response) => {
       dialogRef.close();
       let group: GroupModel = response;
-      if (group.studentsList == null) {
+      if (group.studentList == null) {
         this.openDialog(
           "Successfully created the new " +
             group.name +
@@ -226,7 +226,9 @@ export class GroupComponent implements OnInit {
     this.showPressed = true;
     this.openGroup = this.matForm.controls.group.value;
     this.updtForm.controls.name.setValue(this.openGroup.name);
-    this.updtForm.controls.stdyYr.setValue(this.matForm.controls.series.value.stdyYr);
+    this.updtForm.controls.stdyYr.setValue(
+      this.matForm.controls.series.value.stdyYr
+    );
   }
 
   updateGroup(): void {
@@ -258,10 +260,7 @@ export class GroupComponent implements OnInit {
               dialogRef.close();
               if (err.status == 200) {
                 if (err.error.text == "Success") {
-                  this.openDialog(
-                    "Successfully updated this group",
-                    false
-                  );
+                  this.openDialog("Successfully updated this group", false);
                 } else if (err.error.text.includes("Group already exists")) {
                   this.openDialog(err.error.text, false);
                 } else {

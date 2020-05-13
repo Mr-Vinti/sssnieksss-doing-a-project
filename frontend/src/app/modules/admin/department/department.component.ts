@@ -206,7 +206,9 @@ export class DepartmentComponent implements OnInit {
                     "Successfully updated this department",
                     false
                   );
-                } else if (err.error.text.includes("Department already exists")) {
+                } else if (
+                  err.error.text.includes("Department already exists")
+                ) {
                   this.openDialog(err.error.text, false);
                 } else {
                   this.openDialog(

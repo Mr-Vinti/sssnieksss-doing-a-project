@@ -30,7 +30,7 @@
 </ng-container>
 <ng-container *ngIf="optionPicked">
   <ng-container *ngIf="option == 'add'">
-    <div class="add-form">
+    <div class="form">
       <form fxLayout="column" [formGroup]="matForm" (ngSubmit)="addStudent()">
         <div
           fxLayout="row"
@@ -234,5 +234,284 @@
       </form>
     </div>
   </ng-container>
-  <ng-container *ngIf="option == 'edit'">cra edit</ng-container>
+  <ng-container *ngIf="option == 'edit'">
+    <div class="form">
+      <form
+        [formGroup]="matForm"
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        fxLayoutGap="30px"
+        fxLayoutGap.lt-md="10px"
+        (ngSubmit)="showStudent()"
+      >
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Faculty</mat-label>
+          <mat-select
+            formControlName="faculty"
+            required
+            (selectionChange)="loadDepts($event)"
+          >
+            <mat-option *ngFor="let fac of facultyList" [value]="fac">
+              {{ fac.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.faculty.invalid">
+            You must select a faculty.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Department</mat-label>
+          <mat-select
+            formControlName="department"
+            required
+            (selectionChange)="loadSeries($event)"
+          >
+            <mat-option *ngFor="let dept of departmentList" [value]="dept">
+              {{ dept.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.department.invalid">
+            You must select a department.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Series</mat-label>
+          <mat-select
+            formControlName="series"
+            required
+            (selectionChange)="loadGroups($event)"
+          >
+            <mat-option *ngFor="let srs of seriesList" [value]="srs">
+              {{ srs.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.series.invalid">
+            You must select a series.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Group</mat-label>
+          <mat-select
+            formControlName="group"
+            required
+            (selectionChange)="loadStudents($event)"
+          >
+            <mat-option *ngFor="let grp of groupList" [value]="grp">
+              {{ grp.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.group.invalid">
+            You must select a group.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Student</mat-label>
+          <mat-select formControlName="student" required>
+            <mat-option *ngFor="let std of studentList" [value]="std">
+              {{ std.firstName + " " + std.lastName }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="matForm.controls.student.invalid">
+            You must select a student.
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="10%"
+          class="btn"
+        >
+          Show
+        </button>
+      </form>
+
+      <ng-container *ngIf="showPressed">
+        <form fxLayout="column" [formGroup]="updtForm">
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>First Name</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="firstName"
+                required
+              />
+
+              <mat-error *ngIf="updtForm.controls.firstName.invalid">
+                You must enter a name with only letters and hyphens
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.firstName.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.firstName.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Last Name</mat-label>
+              <input matInput type="text" formControlName="lastName" required />
+
+              <mat-error *ngIf="updtForm.controls.lastName.invalid">
+                You must enter a name with only letters and hyphens
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.lastName.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.lastName.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Father Initial</mat-label>
+              <input matInput type="text" formControlName="fthrInit" required />
+
+              <mat-error *ngIf="updtForm.controls.fthrInit.invalid">
+                You must enter only upper case letters
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.fthrInit.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.fthrInit.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Study Year</mat-label>
+              <input matInput type="text" formControlName="stdyYr" required />
+            </mat-form-field>
+          </div>
+
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>CNP</mat-label>
+              <input matInput type="text" formControlName="cnp" required />
+
+              <mat-error *ngIf="updtForm.controls.cnp.invalid">
+                You must enter a cnp with only digits and length 13
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.cnp.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.cnp.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Phone Number</mat-label>
+              <input matInput type="text" formControlName="phnNbr" required />
+
+              <mat-error *ngIf="updtForm.controls.phnNbr.invalid">
+                You must enter a phone number with only digits and plus sign
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.phnNbr.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.phnNbr.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Username</mat-label>
+              <input matInput type="text" formControlName="userName" required />
+
+              <mat-error *ngIf="updtForm.controls.userName.invalid">
+                You must enter an username with only lowercase letters, numbers,
+                commas or dots.
+              </mat-error>
+
+              <button
+                mat-button
+                *ngIf="updtForm.controls.userName.value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="updtForm.controls.userName.setValue('')"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="updateStudent()"
+            >
+              Update
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              type="submit"
+              fxFlex="10%"
+              class="btn"
+              (click)="deleteStudent()"
+            >
+              Delete
+            </button>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  </ng-container>
 </ng-container>
