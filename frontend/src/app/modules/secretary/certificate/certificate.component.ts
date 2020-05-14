@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { CertificateModel } from "../../../shared/models/certificate.table";
-import { StudentModel } from "../../../shared/models/student.model";
+import { CertificateModel } from "../../../shared/models/certificate.model";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { FormBuilder } from "@angular/forms";
@@ -10,30 +9,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { ModalDialogComponent } from "../modal-dialog/modal-dialog.component";
 import { Dialog } from "../../../shared/models/dialog.model";
 
-const ELEMENT_DATA: CertificateModel[] = [
-  {
-    certId: 1,
-    student: new StudentModel(),
-    motivation: "Locul de munca",
-    status: true,
-  },
-  {
-    certId: 2,
-    student: new StudentModel(),
-    motivation: "Internship",
-    status: true,
-  },
-  {
-    certId: 3,
-    student: new StudentModel(),
-    motivation: "Internship",
-    status: false,
-  },
-];
-
-/**
- * @title Table with filtering
- */
 @Component({
   selector: "app-certificate",
   styleUrls: ["./certificate.component.scss"],
@@ -54,7 +29,6 @@ export class CertificateComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private fb: FormBuilder,
     private service: CertificateService,
     public dialog: MatDialog,
   ) {}

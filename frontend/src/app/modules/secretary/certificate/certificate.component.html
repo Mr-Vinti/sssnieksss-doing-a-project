@@ -4,19 +4,21 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="" />
   </mat-form-field>
 
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+  <mat-table [dataSource]="dataSource" matSort>
     <!-- Certificate Id Column -->
     <ng-container matColumnDef="certId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Certificate Id
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.certId }} </mat-cell>
+      <mat-cell *matCellDef="let element" data-label="Cert Id"> {{ element.certId }} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" data-label="Name">
         {{ element.student.firstName + " " + element.student.lastName }}
       </mat-cell>
     </ng-container>
@@ -26,7 +28,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Group
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">
+      <mat-cell *matCellDef="let element" data-label="Group">
         {{ element.student.group.name }}
       </mat-cell>
     </ng-container>
@@ -34,9 +36,9 @@
     <!-- Motivation Column -->
     <ng-container matColumnDef="purpose">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        purpose
+        Purpose
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.purpose }} </mat-cell>
+      <mat-cell *matCellDef="let element" data-label="Purpose"> {{ element.purpose }} </mat-cell>
     </ng-container>
 
     <!-- Status Column -->
@@ -44,11 +46,23 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Status
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.status }} </mat-cell>
+      <mat-cell *matCellDef="let element" data-label="Status">
+        <mat-icon *ngIf="element.status == 'PENDING'"> access_time </mat-icon>
+        <mat-icon *ngIf="element.status == 'ACCEPTED'" color="primary">
+          check
+        </mat-icon>
+        <mat-icon *ngIf="element.status == 'REJECTED'" color="warn">
+          close
+        </mat-icon>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-row
+      class="row"
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="goToCertificate(row)"
+    ></mat-row>
   </mat-table>
   <mat-paginator
     [pageSize]="[10]"
