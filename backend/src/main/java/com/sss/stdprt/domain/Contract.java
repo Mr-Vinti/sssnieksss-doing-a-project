@@ -26,25 +26,25 @@ import lombok.Setter;
 public class Contract {
 
 	@Id
-	@Column(name="CTR_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "CTR_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ctrId;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="STD_ID")
+	@JoinColumn(name = "STD_ID")
 	private Student student;
-	
-	@Column(name="STDY_TYPE")
+
+	@Column(name = "STDY_TYPE")
 	private Integer stdyType;
-	
+
 	public static ContractDto entityToDto(Contract entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
-		
-		ContractDto dto = new ContractDto(entity.getCtrId(), (parent ? Student.entityToDto(entity.getStudent(), true) : null),
-				entity.getStdyType());
-		
+
+		ContractDto dto = new ContractDto(entity.getCtrId(),
+				(parent ? Student.entityToDto(entity.getStudent(), true) : null), entity.getStdyType());
+
 		return dto;
 	}
 }

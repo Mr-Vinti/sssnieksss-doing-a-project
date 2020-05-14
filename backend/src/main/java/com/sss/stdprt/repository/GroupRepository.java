@@ -9,6 +9,6 @@ import com.sss.stdprt.domain.Group;
 public interface GroupRepository extends JpaRepository<Group, Integer> {
 
 	Group findByNameIgnoreCaseAndSrsId(String name, Integer srsId);
-	
+
 	List<Group> findBySrsId(Integer srsId);
 }

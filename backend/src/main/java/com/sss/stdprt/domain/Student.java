@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import com.sss.stdprt.beans.ContractDto;
 import com.sss.stdprt.beans.StudentDto;
 
-
 @Entity
 @Table(schema = "dbo", name = "Student")
 @Getter
@@ -31,61 +30,62 @@ import com.sss.stdprt.beans.StudentDto;
 @NoArgsConstructor
 public class Student {
 
-    @Id
-    @Column(name="STD_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer stdId;
+	@Id
+	@Column(name = "STD_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer stdId;
 
-    @Column(name="FRSTNAM")
-    private String firstName;
+	@Column(name = "FRSTNAM")
+	private String firstName;
 
-    @Column(name="LSTNAM")
-    private String lastName;
+	@Column(name = "LSTNAM")
+	private String lastName;
 
-    @Column(name="USRNAM")
-    private String userName;
+	@Column(name = "USRNAM")
+	private String userName;
 
-    @Column(name="FTHR_INIT")
-    private String fatherInitial;
+	@Column(name = "FTHR_INIT")
+	private String fatherInitial;
 
-    @Column(name="CNP")
-    private String cnp;
+	@Column(name = "CNP")
+	private String cnp;
 
-    @Column(name="PHN_NBR")
-    private String phoneNumber;
+	@Column(name = "PHN_NBR")
+	private String phoneNumber;
 
-    @Column(name="EMAIL")
-    private String email;
-    
-    @Column(name="GRP_ID")
-    private Integer grpId;
+	@Column(name = "EMAIL")
+	private String email;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="GRP_ID", insertable = false, updatable = false)
-    private Group group;
+	@Column(name = "GRP_ID")
+	private Integer grpId;
 
-    @Column(name="STDY_YR")
-    private Integer studyYear;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "GRP_ID", insertable = false, updatable = false)
+	private Group group;
 
-    @OneToMany
-    @JoinColumn(name = "STD_ID")
-    private List<Contract> contractList;
+	@Column(name = "STDY_YR")
+	private Integer studyYear;
 
-    public static StudentDto entityToDto(Student entity, boolean parent) {
-    	if (entity == null) {
+	@OneToMany
+	@JoinColumn(name = "STD_ID")
+	private List<Contract> contractList;
+
+	public static StudentDto entityToDto(Student entity, boolean parent) {
+		if (entity == null) {
 			return null;
 		}
-    	
-    	List<ContractDto> contractDtos = null;
-    	if (entity.getContractList() != null) {
-    		contractDtos = entity.getContractList().stream().map(ent -> Contract.entityToDto(ent, false)).collect(Collectors.toList());
-    	}
-    	
-    	StudentDto dto = new StudentDto(entity.getStdId(), entity.getFirstName(), entity.getLastName(),
-    			entity.getUserName(), entity.getFatherInitial(), entity.getCnp(), entity.getPhoneNumber(),
-    			entity.getEmail(), (parent ? Group.entityToDto(entity.getGroup(), true) : null),
-    			entity.getStudyYear(), contractDtos);
-		
+
+		List<ContractDto> contractDtos = null;
+		if (entity.getContractList() != null) {
+			contractDtos = entity.getContractList().stream().map(ent -> Contract.entityToDto(ent, false))
+					.collect(Collectors.toList());
+		}
+
+		StudentDto dto = new StudentDto(entity.getStdId(), entity.getFirstName(), entity.getLastName(),
+				entity.getUserName(), entity.getFatherInitial(), entity.getCnp(), entity.getPhoneNumber(),
+				entity.getEmail(), (parent ? Group.entityToDto(entity.getGroup(), true) : null), entity.getStudyYear(),
+				contractDtos);
+
 		return dto;
 	}
 }

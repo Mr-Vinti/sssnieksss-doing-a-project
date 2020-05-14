@@ -2,11 +2,11 @@ package com.sss.stdprt.beans;
 
 public class StringResponse {
 
-    private String response;
+	private String response;
 
-    public StringResponse(String s) { 
-       this.response = s;
-    }
+	public StringResponse(String s) {
+		this.response = s;
+	}
 
 	public String getResponse() {
 		return response;

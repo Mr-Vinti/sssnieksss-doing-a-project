@@ -30,40 +30,41 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Department {
-	
+
 	@Id
-	@Column(name="DEPT_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "DEPT_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer deptId;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
-	
-	@Column(name="FAC_ID")
+
+	@Column(name = "FAC_ID")
 	private Integer facId;
-	
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="FAC_ID", insertable = false, updatable = false)
+	@JoinColumn(name = "FAC_ID", insertable = false, updatable = false)
 	private Faculty faculty;
-	
+
 	@OneToMany
 	@JoinColumn(name = "DEPT_ID")
 	private List<Series> seriesList;
-	
+
 	public static DepartmentDto entityToDto(Department entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
-		
+
 		List<SeriesDto> seriesDtos = null;
 		if (entity.getSeriesList() != null) {
-			seriesDtos = entity.getSeriesList().stream().map(ent -> Series.entityToDto(ent, false)).collect(Collectors.toList());
+			seriesDtos = entity.getSeriesList().stream().map(ent -> Series.entityToDto(ent, false))
+					.collect(Collectors.toList());
 		}
-		
+
 		DepartmentDto dto = new DepartmentDto(entity.getDeptId(), entity.getName(),
 				(parent ? Faculty.entityToDto(entity.getFaculty(), false) : null), seriesDtos);
-		
+
 		return dto;
 	}
 }

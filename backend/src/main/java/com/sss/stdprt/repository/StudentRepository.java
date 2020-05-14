@@ -9,9 +9,9 @@ import com.sss.stdprt.domain.Student;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
 	Student findByCnpIgnoreCaseAndGrpId(String cnp, Integer grpId);
-	
+
 	List<Student> findByGrpId(Integer grpId);
-	
+
 	Student findByUserName(String userName);
-	
+
 }

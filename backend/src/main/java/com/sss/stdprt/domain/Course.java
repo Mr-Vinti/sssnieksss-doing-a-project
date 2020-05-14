@@ -25,43 +25,43 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Course {
 
-    @Id
-    @Column(name="CRS_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer crsId;
+	@Id
+	@Column(name = "CRS_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer crsId;
 
-    @Column(name="NAME")
-    private String name;
-    
-    @Column(name="SRS_ID")
-    private Integer srsId;
-    
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="SRS_ID", insertable = false, updatable = false)
-    private Series series;
+	@Column(name = "NAME")
+	private String name;
 
-    @Column(name="CRDT_PTS")
-    private Integer creditPoints;
+	@Column(name = "SRS_ID")
+	private Integer srsId;
 
-    @Column(name="TCHR")
-    private String teacher;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "SRS_ID", insertable = false, updatable = false)
+	private Series series;
 
-    @Column(name="SMSTR")
-    private Integer semester;
+	@Column(name = "CRDT_PTS")
+	private Integer creditPoints;
 
-    @Column(name="STDY_YR")
-    private Integer studyYear;
+	@Column(name = "TCHR")
+	private String teacher;
 
-    public static CourseDto entityToDto(Course entity, boolean parent) {
+	@Column(name = "SMSTR")
+	private Integer semester;
+
+	@Column(name = "STDY_YR")
+	private Integer studyYear;
+
+	public static CourseDto entityToDto(Course entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
-		
+
 		CourseDto dto = new CourseDto(entity.getCrsId(), entity.getName(),
-				(parent ? Series.entityToDto(entity.getSeries(), true) : null),
-				entity.getCreditPoints(), entity.getTeacher(), entity.getSemester(), entity.getStudyYear());
-		
+				(parent ? Series.entityToDto(entity.getSeries(), true) : null), entity.getCreditPoints(),
+				entity.getTeacher(), entity.getSemester(), entity.getStudyYear());
+
 		return dto;
 	}
-    
+
 }

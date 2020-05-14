@@ -30,30 +30,30 @@ import lombok.Setter;
 public class Faculty {
 
 	@Id
-	@Column(name="FAC_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "FAC_ID", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer facId;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
-	
+
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "faculty")
 	private List<Department> departmentList;
-	
+
 	public static FacultyDto entityToDto(Faculty entity, boolean parent) {
 		if (entity == null) {
 			return null;
 		}
-		
+
 		List<DepartmentDto> departmentDtos = null;
 		if (entity.getDepartmentList() != null && parent) {
-			departmentDtos = entity.getDepartmentList().stream().map(ent -> Department.entityToDto(ent, false)).collect(Collectors.toList());
+			departmentDtos = entity.getDepartmentList().stream().map(ent -> Department.entityToDto(ent, false))
+					.collect(Collectors.toList());
 		}
-		
-		FacultyDto dto = new FacultyDto(entity.getFacId(), entity.getName(),
-				departmentDtos);
-		
+
+		FacultyDto dto = new FacultyDto(entity.getFacId(), entity.getName(), departmentDtos);
+
 		return dto;
 	}
 }
