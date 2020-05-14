@@ -3,7 +3,7 @@ import { StudentModel } from "./student.model";
 export class CertificateModel {
     certId: number;
     student: StudentModel;
-    motivation: string;
+    purpose: string;
     status: boolean;
   }
   

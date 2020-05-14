@@ -1,5 +1,6 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,18 @@ public class Series {
 	@OneToMany
 	@JoinColumn(name = "SRS_ID")
 	private List<Group> groupList;
+
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static SeriesDto entityToDto(Series entity, boolean parent) {
 		if (entity == null) {

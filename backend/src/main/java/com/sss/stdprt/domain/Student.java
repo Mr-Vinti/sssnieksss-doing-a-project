@@ -1,5 +1,6 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,18 @@ public class Student {
 	@OneToMany
 	@JoinColumn(name = "STD_ID")
 	private List<Contract> contractList;
+
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static StudentDto entityToDto(Student entity, boolean parent) {
 		if (entity == null) {

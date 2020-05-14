@@ -1,5 +1,6 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,18 @@ public class Faculty {
 
 	@Column(name = "NAME")
 	private String name;
+	
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "faculty")

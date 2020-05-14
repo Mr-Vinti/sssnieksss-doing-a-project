@@ -1,5 +1,7 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,6 +38,18 @@ public class Contract {
 
 	@Column(name = "STDY_TYPE")
 	private Integer stdyType;
+
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static ContractDto entityToDto(Contract entity, boolean parent) {
 		if (entity == null) {

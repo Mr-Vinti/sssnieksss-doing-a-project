@@ -27,16 +27,16 @@
         Group
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.student.group }}
+        {{ element.student.group.name }}
       </mat-cell>
     </ng-container>
 
     <!-- Motivation Column -->
-    <ng-container matColumnDef="motivation">
+    <ng-container matColumnDef="purpose">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Motivation
+        purpose
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.motivation }} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{ element.purpose }} </mat-cell>
     </ng-container>
 
     <!-- Status Column -->

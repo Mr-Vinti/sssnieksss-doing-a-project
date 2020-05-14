@@ -1,5 +1,7 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,6 +53,18 @@ public class Course {
 
 	@Column(name = "STDY_YR")
 	private Integer studyYear;
+
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static CourseDto entityToDto(Course entity, boolean parent) {
 		if (entity == null) {

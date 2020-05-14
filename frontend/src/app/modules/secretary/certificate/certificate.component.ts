@@ -44,7 +44,7 @@ export class CertificateComponent implements OnInit, AfterViewInit {
     "certId",
     "name",
     "group",
-    "motivation",
+    "purpose",
     "status",
   ];
   dataSource: MatTableDataSource<CertificateModel>;
@@ -82,7 +82,7 @@ export class CertificateComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource();
     this.service.getCertificates().subscribe((response) => {
       dialogRef.close();
-      if (response.length) {
+      if (response.length == 0) {
         this.openDialog("No certificates found", false);
       } else {
         this.certificateList = response;

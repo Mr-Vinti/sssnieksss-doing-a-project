@@ -1,5 +1,6 @@
 package com.sss.stdprt.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,18 @@ public class Group {
 	@OneToMany
 	@JoinColumn(name = "GRP_ID")
 	private List<Student> studentList;
+
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static GroupDto entityToDto(Group entity, boolean parent) {
 		if (entity == null) {

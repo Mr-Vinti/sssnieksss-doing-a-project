@@ -3,10 +3,12 @@ package com.sss.stdprt.rest;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipal;
 import com.sss.stdprt.beans.CourseDto;
 import com.sss.stdprt.beans.DepartmentDto;
 import com.sss.stdprt.beans.FacultyDto;
@@ -32,8 +34,9 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-faculty")
-	public ResponseEntity<FacultyDto> addFaculty(@RequestBody String name) {
-		FacultyDto facultyDto = adminService.addFaculty(name);
+	public ResponseEntity<FacultyDto> addFaculty(@RequestBody String name, PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		FacultyDto facultyDto = adminService.addFaculty(name, adminId);
 
 		return ResponseEntity.ok(facultyDto);
 	}
@@ -54,8 +57,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-faculty")
-	public ResponseEntity<String> updateFaculty(@RequestBody FacultyDto faculty) {
-		String response = adminService.updateFaculty(faculty);
+	public ResponseEntity<String> updateFaculty(@RequestBody FacultyDto faculty,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateFaculty(faculty, adminId);
 
 		return ResponseEntity.ok(response);
 	}
@@ -76,8 +81,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-department")
-	public ResponseEntity<DepartmentDto> addDepartment(@RequestBody DepartmentDto department) {
-		DepartmentDto newDeptDto = adminService.addDepartment(department);
+	public ResponseEntity<DepartmentDto> addDepartment(@RequestBody DepartmentDto department,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		DepartmentDto newDeptDto = adminService.addDepartment(department, adminId);
 
 		return ResponseEntity.ok(newDeptDto);
 	}
@@ -98,8 +105,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-department")
-	public ResponseEntity<String> updateDepartment(@RequestBody DepartmentDto department) {
-		String response = adminService.updateDepartment(department);
+	public ResponseEntity<String> updateDepartment(@RequestBody DepartmentDto department,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateDepartment(department, adminId);
 
 		return ResponseEntity.ok(response);
 	}
@@ -120,8 +129,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-series")
-	public ResponseEntity<SeriesDto> addSeries(@RequestBody SeriesDto series) {
-		SeriesDto newSeriesDto = adminService.addSeries(series);
+	public ResponseEntity<SeriesDto> addSeries(@RequestBody SeriesDto series,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		SeriesDto newSeriesDto = adminService.addSeries(series, adminId);
 
 		return ResponseEntity.ok(newSeriesDto);
 	}
@@ -142,8 +153,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-series")
-	public ResponseEntity<String> updateSeries(@RequestBody SeriesDto series) {
-		String response = adminService.updateSeries(series);
+	public ResponseEntity<String> updateSeries(@RequestBody SeriesDto series,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateSeries(series, adminId);
 
 		return ResponseEntity.ok(response);
 	}
@@ -164,8 +177,9 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-group")
-	public ResponseEntity<GroupDto> addGroup(@RequestBody GroupDto group) {
-		GroupDto newGroupDto = adminService.addGroup(group);
+	public ResponseEntity<GroupDto> addGroup(@RequestBody GroupDto group, PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		GroupDto newGroupDto = adminService.addGroup(group, adminId);
 
 		return ResponseEntity.ok(newGroupDto);
 	}
@@ -186,8 +200,9 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-group")
-	public ResponseEntity<String> updateGroup(@RequestBody GroupDto group) {
-		String response = adminService.updateGroup(group);
+	public ResponseEntity<String> updateGroup(@RequestBody GroupDto group, PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateGroup(group, adminId);
 
 		return ResponseEntity.ok(response);
 	}
@@ -208,8 +223,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-student")
-	public ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto student) {
-		StudentDto newStudentDto = adminService.addStudent(student);
+	public ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto student,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		StudentDto newStudentDto = adminService.addStudent(student, adminId);
 
 		return ResponseEntity.ok(newStudentDto);
 	}
@@ -230,8 +247,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-student")
-	public ResponseEntity<String> updateStudent(@RequestBody StudentDto student) {
-		String response = adminService.updateStudent(student);
+	public ResponseEntity<String> updateStudent(@RequestBody StudentDto student,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateStudent(student, adminId);
 
 		return ResponseEntity.ok(response);
 	}
@@ -252,8 +271,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/add-course")
-	public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto course) {
-		CourseDto newCourseDto = adminService.addCourse(course);
+	public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto course,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		CourseDto newCourseDto = adminService.addCourse(course, adminId);
 
 		return ResponseEntity.ok(newCourseDto);
 	}
@@ -274,8 +295,10 @@ public class AdminController {
 			@ApiResponse(code = 400, message = "Malformed request"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/admin/update-course")
-	public ResponseEntity<String> updateCourse(@RequestBody CourseDto course) {
-		String response = adminService.updateCourse(course);
+	public ResponseEntity<String> updateCourse(@RequestBody CourseDto course,
+			PreAuthenticatedAuthenticationToken auth) {
+		String adminId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
+		String response = adminService.updateCourse(course, adminId);
 
 		return ResponseEntity.ok(response);
 	}

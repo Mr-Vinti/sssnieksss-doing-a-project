@@ -1,5 +1,6 @@
 package com.sss.stdprt.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -38,7 +39,7 @@ public class AdminService {
 	private final StudentRepository studentRepository;
 	private final CourseRepository courseRepository;
 
-	public FacultyDto addFaculty(String name) {
+	public FacultyDto addFaculty(String name, String adminId) {
 		Faculty faculty = facultyRepository.findByNameIgnoreCase(name);
 
 		if (faculty != null) {
@@ -47,6 +48,10 @@ public class AdminService {
 
 		faculty = new Faculty();
 		faculty.setName(name);
+		faculty.setCreatedAt(new Date());
+		faculty.setCreatedBy(adminId);
+		faculty.setUpdatedAt(new Date());
+		faculty.setUpdatedBy(adminId);
 
 		Faculty newFaculty = facultyRepository.save(faculty);
 		return Faculty.entityToDto(newFaculty, true);
@@ -61,7 +66,7 @@ public class AdminService {
 		return facultyDtos;
 	}
 
-	public String updateFaculty(FacultyDto faculty) {
+	public String updateFaculty(FacultyDto faculty, String adminId) {
 		Faculty newFaculty = facultyRepository.findByNameIgnoreCase(faculty.getName());
 
 		if (newFaculty != null) {
@@ -74,6 +79,8 @@ public class AdminService {
 			Faculty fac = facOpt.get();
 
 			fac.setName(faculty.getName());
+			fac.setUpdatedAt(new Date());
+			fac.setUpdatedBy(adminId);
 
 			facultyRepository.save(fac);
 
@@ -97,7 +104,7 @@ public class AdminService {
 		return "Fail";
 	}
 
-	public DepartmentDto addDepartment(DepartmentDto deptDto) {
+	public DepartmentDto addDepartment(DepartmentDto deptDto, String adminId) {
 		Department department = departmentRepository.findByNameIgnoreCaseAndFacId(deptDto.getName(),
 				deptDto.getFaculty().getFacId());
 
@@ -108,6 +115,10 @@ public class AdminService {
 		department = new Department();
 		department.setName(deptDto.getName());
 		department.setFacId(deptDto.getFaculty().getFacId());
+		department.setCreatedAt(new Date());
+		department.setCreatedBy(adminId);
+		department.setUpdatedAt(new Date());
+		department.setUpdatedBy(adminId);
 
 		Department newDepartment = departmentRepository.save(department);
 
@@ -123,7 +134,7 @@ public class AdminService {
 		return departmentDtos;
 	}
 
-	public String updateDepartment(DepartmentDto department) {
+	public String updateDepartment(DepartmentDto department, String adminId) {
 		Department newDepartment = departmentRepository.findByNameIgnoreCaseAndFacId(department.getName(),
 				department.getFaculty().getFacId());
 
@@ -137,6 +148,8 @@ public class AdminService {
 			Department dept = deptOpt.get();
 
 			dept.setName(department.getName());
+			dept.setUpdatedAt(new Date());
+			dept.setUpdatedBy(adminId);
 
 			departmentRepository.save(dept);
 
@@ -160,7 +173,7 @@ public class AdminService {
 		return "Fail";
 	}
 
-	public SeriesDto addSeries(SeriesDto seriesDto) {
+	public SeriesDto addSeries(SeriesDto seriesDto, String adminId) {
 		Series series = seriesRepository.findByNameIgnoreCaseAndDeptIdAndStdyYr(seriesDto.getName(),
 				seriesDto.getDept().getDeptId(), seriesDto.getStdyYr());
 
@@ -172,6 +185,10 @@ public class AdminService {
 		series.setName(seriesDto.getName());
 		series.setDeptId(seriesDto.getDept().getDeptId());
 		series.setStdyYr(seriesDto.getStdyYr());
+		series.setCreatedAt(new Date());
+		series.setCreatedBy(adminId);
+		series.setUpdatedAt(new Date());
+		series.setUpdatedBy(adminId);
 
 		Series newSeries = seriesRepository.save(series);
 		return Series.entityToDto(newSeries, false);
@@ -186,7 +203,7 @@ public class AdminService {
 		return seriesDtos;
 	}
 
-	public String updateSeries(SeriesDto series) {
+	public String updateSeries(SeriesDto series, String adminId) {
 		Series newSeries = seriesRepository.findByNameIgnoreCaseAndDeptIdAndStdyYr(series.getName(),
 				series.getDept().getDeptId(), series.getStdyYr());
 
@@ -201,6 +218,8 @@ public class AdminService {
 
 			srs.setName(series.getName());
 			srs.setStdyYr(series.getStdyYr());
+			srs.setUpdatedAt(new Date());
+			srs.setUpdatedBy(adminId);
 
 			seriesRepository.save(srs);
 
@@ -224,7 +243,7 @@ public class AdminService {
 		return "Fail";
 	}
 
-	public GroupDto addGroup(GroupDto groupDto) {
+	public GroupDto addGroup(GroupDto groupDto, String adminId) {
 		Group group = groupRepository.findByNameIgnoreCaseAndSrsId(groupDto.getName(), groupDto.getSeries().getSrsId());
 
 		if (group != null) {
@@ -234,6 +253,10 @@ public class AdminService {
 		group = new Group();
 		group.setName(groupDto.getName());
 		group.setSrsId(groupDto.getSeries().getSrsId());
+		group.setCreatedAt(new Date());
+		group.setCreatedBy(adminId);
+		group.setUpdatedAt(new Date());
+		group.setUpdatedBy(adminId);
 
 		Group newGroup = groupRepository.save(group);
 		return Group.entityToDto(newGroup, false);
@@ -248,7 +271,7 @@ public class AdminService {
 		return groupDtos;
 	}
 
-	public String updateGroup(GroupDto group) {
+	public String updateGroup(GroupDto group, String adminId) {
 		Group newGroup = groupRepository.findByNameIgnoreCaseAndSrsId(group.getName(), group.getSeries().getSrsId());
 
 		if (newGroup != null) {
@@ -261,6 +284,8 @@ public class AdminService {
 			Group grp = groupOpt.get();
 
 			grp.setName(group.getName());
+			grp.setUpdatedAt(new Date());
+			grp.setUpdatedBy(adminId);
 
 			groupRepository.save(grp);
 
@@ -284,7 +309,7 @@ public class AdminService {
 		return "Fail";
 	}
 
-	public StudentDto addStudent(StudentDto studentDto) {
+	public StudentDto addStudent(StudentDto studentDto, String adminId) {
 		Student student = studentRepository.findByCnpIgnoreCaseAndGrpId(studentDto.getCnp(),
 				studentDto.getGroup().getGrpId());
 
@@ -300,6 +325,10 @@ public class AdminService {
 		student.setPhoneNumber(studentDto.getPhoneNumber());
 		student.setStudyYear(studentDto.getStudyYear());
 		student.setGrpId(studentDto.getGroup().getGrpId());
+		student.setCreatedAt(new Date());
+		student.setCreatedBy(adminId);
+		student.setUpdatedAt(new Date());
+		student.setUpdatedBy(adminId);
 
 		String userName = findValidUsername(studentDto);
 		student.setUserName(userName);
@@ -343,13 +372,11 @@ public class AdminService {
 		return studentDtos;
 	}
 
-	public String updateStudent(StudentDto student) {
+	public String updateStudent(StudentDto student, String adminId) {
 		Optional<Student> studentOpt = studentRepository.findById(student.getStdId());
 
 		if (studentOpt.isPresent()) {
 			Student std = studentOpt.get();
-
-			std.setCnp(student.getCnp());
 
 			if (!student.getUserName().equals(std.getUserName())) {
 				if (studentRepository.findByUserName(student.getUserName()) != null) {
@@ -359,10 +386,13 @@ public class AdminService {
 				std.setEmail(student.getUserName().concat("@ipsssnieksss.onmicrosoft.com"));
 			}
 
+			std.setCnp(student.getCnp());
 			std.setFatherInitial(student.getFatherInitial());
 			std.setFirstName(student.getFirstName());
 			std.setLastName(student.getLastName());
 			std.setPhoneNumber(student.getPhoneNumber());
+			std.setUpdatedAt(new Date());
+			std.setUpdatedBy(adminId);
 
 			studentRepository.save(std);
 
@@ -386,7 +416,7 @@ public class AdminService {
 		return "Fail";
 	}
 
-	public CourseDto addCourse(CourseDto courseDto) {
+	public CourseDto addCourse(CourseDto courseDto, String adminId) {
 		Course course = courseRepository.findByNameIgnoreCaseAndSrsId(courseDto.getName(),
 				courseDto.getSeries().getSrsId());
 
@@ -403,6 +433,10 @@ public class AdminService {
 		course.setSemester(courseDto.getSemester());
 		course.setCreditPoints(courseDto.getCreditPoints());
 		course.setStudyYear(courseDto.getStudyYear());
+		course.setCreatedAt(new Date());
+		course.setCreatedBy(adminId);
+		course.setUpdatedAt(new Date());
+		course.setUpdatedBy(adminId);
 
 		Course newGroup = courseRepository.save(course);
 		return Course.entityToDto(newGroup, false);
@@ -417,7 +451,7 @@ public class AdminService {
 		return courseDtos;
 	}
 
-	public String updateCourse(CourseDto course) {
+	public String updateCourse(CourseDto course, String adminId) {
 		Course newCourse = courseRepository.findByNameIgnoreCaseAndSrsId(course.getName(),
 				course.getSeries().getSrsId());
 
@@ -434,6 +468,8 @@ public class AdminService {
 			crs.setCreditPoints(course.getCreditPoints());
 			crs.setSemester(course.getSemester());
 			crs.setTeacher(course.getTeacher());
+			crs.setUpdatedAt(new Date());
+			crs.setUpdatedBy(adminId);
 
 			courseRepository.save(crs);
 

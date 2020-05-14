@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
+import com.microsoft.azure.spring.autoconfigure.aad.UserPrincipal;
 import com.sss.stdprt.beans.CertificateDto;
 import com.sss.stdprt.service.SecretaryService;
 
@@ -40,8 +41,8 @@ public class SecretaryController {
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/secretary/accept-certificate")
 	public ResponseEntity<String> acceptCertificate(@RequestBody CertificateDto certificate,
-			OAuth2AuthenticationToken auth) {
-		String secretaryId = auth.getPrincipal().getAttributes().get("oid").toString();
+			PreAuthenticatedAuthenticationToken auth) {
+		String secretaryId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
 		String response = secretaryService.acceptCertificate(certificate, secretaryId);
 
 		return ResponseEntity.ok(response);
@@ -53,8 +54,8 @@ public class SecretaryController {
 			@ApiResponse(code = 500, message = "Internal error") })
 	@PostMapping("/secretary/reject-certificate")
 	public ResponseEntity<String> rejectCertificate(@RequestBody CertificateDto certificate,
-			OAuth2AuthenticationToken auth) {
-		String secretaryId = auth.getPrincipal().getAttributes().get("oid").toString();
+			PreAuthenticatedAuthenticationToken auth) {
+		String secretaryId = ((UserPrincipal) auth.getPrincipal()).getClaims().get("preferred_username").toString();
 		String response = secretaryService.rejectCertificate(certificate, secretaryId);
 
 		return ResponseEntity.ok(response);
