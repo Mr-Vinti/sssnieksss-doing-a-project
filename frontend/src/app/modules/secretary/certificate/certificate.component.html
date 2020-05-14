@@ -10,7 +10,9 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Certificate Id
       </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Cert Id"> {{ element.certId }} </mat-cell>
+      <mat-cell *matCellDef="let element" data-label="Cert Id">
+        {{ element.certId }}
+      </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
@@ -38,7 +40,9 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Purpose
       </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Purpose"> {{ element.purpose }} </mat-cell>
+      <mat-cell *matCellDef="let element" data-label="Purpose">
+        {{ element.purpose }}
+      </mat-cell>
     </ng-container>
 
     <!-- Status Column -->
@@ -54,6 +58,24 @@
         <mat-icon *ngIf="element.status == 'REJECTED'" color="warn">
           close
         </mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="submittedAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Submitted At
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" data-label="Submitted At">
+        {{ datepipe.transform(element.submittedAt, 'dd-MM-yyyy hh:mm') }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="approvedAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Approved At
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" data-label="Approved At">
+        {{ datepipe.transform(element.approvedAt, 'dd-MM-yyyy hh:mm') }}
       </mat-cell>
     </ng-container>
 

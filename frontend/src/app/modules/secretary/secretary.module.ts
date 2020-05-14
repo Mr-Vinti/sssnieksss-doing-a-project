@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { SecretaryComponent } from "./secretary.component";
 import { ContractComponent } from "./contract/contract.component";
 import { CertificateComponent } from "./certificate/certificate.component";
@@ -45,6 +45,7 @@ import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
     MatSortModule,
     SecretaryRouting,
   ],
+  providers: [DatePipe],
   entryComponents: [ModalDialogComponent],
 })
 export class SecretaryModule {}

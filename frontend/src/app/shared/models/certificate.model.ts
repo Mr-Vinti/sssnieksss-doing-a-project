@@ -5,4 +5,6 @@ export class CertificateModel {
   student: StudentModel;
   purpose: string;
   status: boolean;
+  submittedAt: Date;
+  approvedAt: Date;
 }

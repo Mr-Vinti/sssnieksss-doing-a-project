@@ -8,6 +8,7 @@ import { CertificateService } from "../../../core/http/secretary/certificate.ser
 import { MatDialog } from "@angular/material/dialog";
 import { ModalDialogComponent } from "../modal-dialog/modal-dialog.component";
 import { Dialog } from "../../../shared/models/dialog.model";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-certificate",
@@ -21,6 +22,8 @@ export class CertificateComponent implements OnInit, AfterViewInit {
     "group",
     "purpose",
     "status",
+    "submittedAt",
+    "approvedAt"
   ];
   dataSource: MatTableDataSource<CertificateModel>;
   certificateList: Array<CertificateModel>;
@@ -31,6 +34,7 @@ export class CertificateComponent implements OnInit, AfterViewInit {
   constructor(
     private service: CertificateService,
     public dialog: MatDialog,
+    public datepipe: DatePipe,
   ) {}
 
   private openDialog(message: string, isLoading: boolean): any {
@@ -60,6 +64,7 @@ export class CertificateComponent implements OnInit, AfterViewInit {
         this.openDialog("No certificates found", false);
       } else {
         this.certificateList = response;
+        console.log(this.datepipe.transform(this.certificateList[0].submittedAt, 'dd-MM-yyyy'));
         this.dataSource.data = this.certificateList;
       }
     })
@@ -67,5 +72,9 @@ export class CertificateComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.initializeDatasource();
+  }
+
+  goToCertificate(cert: CertificateModel) {
+
   }
 }
