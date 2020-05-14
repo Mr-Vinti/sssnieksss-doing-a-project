@@ -228,7 +228,7 @@ export class DepartmentComponent implements OnInit {
       });
   }
 
-  deleteFaculty(): void {
+  deleteDepartment(): void {
     this.openConfirmDialog(
       "Are you sure you want to delete this department?",
       false,
