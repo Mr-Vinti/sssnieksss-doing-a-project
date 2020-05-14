@@ -19,6 +19,14 @@ mat-header-cell {
   background-color: #e0e0e0;
 }
 
+.row-disabled {
+  background-color: #cecaca42;
+}
+
+.row-disabled mat-cell {
+  color: #8c8989;
+}
+
 @media screen and (max-width: 960px) {
   .mat-table {
     border: 0;

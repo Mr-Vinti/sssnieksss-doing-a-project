@@ -4,7 +4,7 @@ export class CertificateModel {
   certId: number;
   student: StudentModel;
   purpose: string;
-  status: boolean;
+  status: string;
   submittedAt: Date;
   approvedAt: Date;
 }

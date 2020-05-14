@@ -19,6 +19,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
+import { CertificateModalDialogComponent } from "./certificate-modal-dialog/certificate-modal-dialog.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
     ContractComponent,
     CertificateComponent,
     ModalDialogComponent,
+    CertificateModalDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,6 @@ import { ModalDialogComponent } from "./modal-dialog/modal-dialog.component";
     SecretaryRouting,
   ],
   providers: [DatePipe],
-  entryComponents: [ModalDialogComponent],
+  entryComponents: [ModalDialogComponent, CertificateModalDialogComponent],
 })
 export class SecretaryModule {}

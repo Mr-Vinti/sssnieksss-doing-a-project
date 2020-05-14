@@ -1,0 +1,39 @@
+<div class="modalSearch">
+  <h1 mat-dialog-title>Adeverinta</h1>
+  <div mat-dialog-content>
+    <p>
+      Student(ul/a) {{ data.model.firstName + " " + data.model.lastName }} <br />
+      este student(a) in anul universitar 2019/2020 la <br />
+      Facultatea {{ data.model.facultyName }}, sectia
+      {{ data.model.departmentName }}, anul {{ data.model.stdyYr }} de studii.
+      <br />
+      Adeverinta se elibereaza pentru a-i servi la {{ data.model.purpose }}.
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <ng-container *ngIf="data.confirmNeeded == undefined">
+      <button mat-button mat-dialog-close>Close</button>
+    </ng-container>
+    <ng-container *ngIf="data.confirmNeeded != undefined">
+      <button mat-button mat-dialog-close (click)="onClick('Accept')">
+        Accept
+      </button>
+      <button
+        mat-button
+        mat-dialog-close
+        cdkFocusInitial
+        (click)="onClick('Reject')"
+      >
+        Reject
+      </button>
+      <button
+        mat-button
+        mat-dialog-close
+        cdkFocusInitial
+        (click)="onClick('Cancel')"
+      >
+        Cancel
+      </button>
+    </ng-container>
+  </div>
+</div>

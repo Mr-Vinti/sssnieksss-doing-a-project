@@ -15,7 +15,7 @@
   </div>
   <div mat-dialog-actions>
     <ng-container *ngIf="data.confirmNeeded == undefined">
-      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button mat-dialog-close (click)="onClick('Close')">Close</button>
     </ng-container>
     <ng-container *ngIf="data.confirmNeeded != undefined">
       <button mat-button mat-dialog-close (click)="onClick('Yes')">Yes</button>
