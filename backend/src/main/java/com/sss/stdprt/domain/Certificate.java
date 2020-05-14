@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "dbo", name = "Certificate_Status")
+@Table(schema = "dbo", name = "Certificate")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -47,6 +47,18 @@ public class Certificate {
 
 	@Column(name = "APRV_AT")
 	private Date approvedAt;
+	
+	@Column(name = "CREAT_BY")
+	private String createdBy;
+	
+	@Column(name = "CREAT_DT")
+	private Date createdAt;
+	
+	@Column(name = "UPDT_BY")
+	private String updatedBy;
+	
+	@Column(name = "UPDT_DT")
+	private Date updatedAt;
 
 	public static CertificateDto entityToDto(Certificate entity, boolean parent) {
 		if (entity == null) {

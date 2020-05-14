@@ -33,4 +33,8 @@ export const environment = {
   deleteGroup: 'http://localhost:8080/student-portal/admin/delete-group',
   deleteStudent: 'http://localhost:8080/student-portal/admin/delete-student',
   deleteCourse: 'http://localhost:8080/student-portal/admin/delete-course',
+
+  getCertificates: 'http://localhost:8080/student-portal/secretary/get-certificates',
+  acceptCertificate: 'http://localhost:8080/student-portal/secretary/accept-certificate',
+  rejectCertificate: 'http://localhost:8080/student-portal/secretary/reject-certificate',
 };
