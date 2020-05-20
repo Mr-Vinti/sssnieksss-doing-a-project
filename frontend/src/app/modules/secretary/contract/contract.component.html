@@ -1,1 +1,107 @@
-<p>contract works!</p>
+<div class="content">
+  <form
+    [formGroup]="matForm"
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutGap="30px"
+    fxLayoutGap.lt-md="10px"
+    (ngSubmit)="getStudents()"
+  >
+    <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+      <mat-label>Faculty</mat-label>
+      <mat-select formControlName="faculty" required>
+        <mat-option *ngFor="let fac of facultyList" [value]="fac">
+          {{ fac.name }}
+        </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="matForm.controls.faculty.invalid">
+        You must select a faculty.
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      fxFlex="10%"
+      class="btn"
+    >
+      Show Students
+    </button>
+  </form>
+
+  <div *ngIf="selectedFaculty" class="students-table">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Students</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="" />
+        </mat-form-field>
+
+        <mat-table [dataSource]="dataSource" matSort>
+          <!-- Certificate Id Column -->
+          <ng-container matColumnDef="stdId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Student Id
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Student Id">
+              {{ element.stdId }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Name">
+              {{ element.firstName + " " + element.lastName }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Group Column -->
+          <ng-container matColumnDef="group">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Group
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Group">
+              {{ element.group.name }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Motivation Column -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Username
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Username">
+              {{ element.userName }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="stdyYr">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Study Year
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Status">
+              {{ element.studyYear }}
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+        <mat-paginator
+          [pageSize]="[10]"
+          [pageSizeOptions]="[5, 10, 20]"
+          [showFirstLastButtons]="true"
+        ></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -23,6 +23,11 @@ mat-header-cell {
   background-color: #cecaca42;
 }
 
+.row-disabled:hover {
+  cursor: default;
+  background-color: #cecaca42;
+}
+
 .row-disabled mat-cell {
   color: #8c8989;
 }
