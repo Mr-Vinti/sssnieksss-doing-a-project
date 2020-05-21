@@ -24,14 +24,17 @@
       mat-raised-button
       color="primary"
       type="submit"
-      fxFlex="10%"
+      fxFlex="15%"
       class="btn"
     >
       Show Students
     </button>
   </form>
 
-  <div *ngIf="selectedFaculty" class="students-table">
+  <div
+    *ngIf="selectedFaculty && selectedStudent == null"
+    class="students-table"
+  >
     <mat-card>
       <mat-card-header>
         <mat-card-title>Students</mat-card-title>
@@ -94,7 +97,11 @@
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          <mat-row
+            class="row"
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="goToContracts(row)"
+          ></mat-row>
         </mat-table>
         <mat-paginator
           [pageSize]="[10]"
@@ -103,5 +110,184 @@
         ></mat-paginator>
       </mat-card-content>
     </mat-card>
+  </div>
+
+  <div
+    *ngIf="selectedFaculty && selectedStudent && !selectedContract"
+    class="contracts-table"
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          Contracts for
+          {{ selectedStudent.firstName + " " + selectedStudent.lastName }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table [dataSource]="contractsDataSource" matSort>
+          <ng-container matColumnDef="ctrId">
+            <mat-header-cell *matHeaderCellDef>
+              Contract Id
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Contract Id">
+              {{ element.ctrId }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="stdyType">
+            <mat-header-cell *matHeaderCellDef>
+              Study Type
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Study Type">
+              {{ element.stdyType == "budget" ? "BUDGET" : "TAX" }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="stdyYr">
+            <mat-header-cell *matHeaderCellDef>
+              Study Year
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Study Year">
+              {{ element.stdyYr }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="year">
+            <mat-header-cell *matHeaderCellDef>
+              Year
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" data-label="Year">
+              {{ element.year }}
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="contractsDisplayedColumns"
+          ></mat-header-row>
+          <mat-row
+            class="row"
+            *matRowDef="let row; columns: contractsDisplayedColumns"
+            (click)="showContract(row)"
+          ></mat-row>
+        </mat-table>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="back()">Back</button>
+        <button mat-raised-button (click)="add()">Add Contract</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div
+    *ngIf="selectedFaculty && selectedStudent && selectedContract"
+    class="contract-form"
+  >
+    <form [formGroup]="contrForm" fxLayout="column">
+      <div
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        fxLayoutGap="30px"
+        fxLayoutGap.lt-md="10px"
+      >
+        <mat-form-field *ngIf="!isNewContract" fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Contract Id</mat-label>
+          <input matInput type="text" formControlName="ctrId" required />
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Study Type</mat-label>
+          <mat-select formControlName="stdyType" required>
+            <mat-option value="budget">BUDGET</mat-option>
+            <mat-option value="tax">TAX</mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="contrForm.controls.stdyType.invalid">
+            You must select a study type
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Study Year</mat-label>
+          <input matInput type="text" formControlName="stdyYr" required />
+
+          <mat-error *ngIf="contrForm.controls.stdyYr.invalid">
+            You must enter a study year with only numbers
+          </mat-error>
+
+          <button
+            mat-button
+            *ngIf="contrForm.controls.stdyYr.value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="contrForm.controls.stdyYr.setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+          <mat-label>Year</mat-label>
+          <input matInput type="text" formControlName="year" required />
+
+          <mat-error *ngIf="contrForm.controls.year.invalid">
+            You must enter a year with only numbers
+          </mat-error>
+
+          <button
+            mat-button
+            *ngIf="contrForm.controls.year.value"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="contrForm.controls.year.setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        fxLayoutGap="30px"
+        fxLayoutGap.lt-md="10px"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="15%"
+          fxFlex.lt-md="100%"
+          class="btn"
+          *ngIf="isNewContract"
+          (click)="addContract()"
+        >
+          Add Contract
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="20%"
+          class="btn"
+          *ngIf="!isNewContract"
+          (click)="updateContract()"
+        >
+          Update Contract
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          fxFlex="20%"
+          class="btn"
+          *ngIf="!isNewContract"
+          (click)="deleteContract()"
+        >
+          Delete Contract
+        </button>
+      </div>
+    </form>
   </div>
 </div>

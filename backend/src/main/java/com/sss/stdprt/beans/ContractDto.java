@@ -12,5 +12,7 @@ import lombok.Setter;
 public class ContractDto {
 	private Integer ctrId;
 	private StudentDto student;
-	private Integer stdyType;
+	private String stdyType;
+	private Integer stdyYr;
+	private Integer year;
 }

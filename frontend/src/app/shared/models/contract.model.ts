@@ -1,6 +1,9 @@
+import { StudentModel } from "./student.model";
 
 export class ContractModel {
     ctrId: number;
-    stdId: number;
-    stdytype: number;
+    student: StudentModel;
+    stdyType: string;
+    stdyYr: number;
+    year: number;
 };

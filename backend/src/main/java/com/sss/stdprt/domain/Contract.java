@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sss.stdprt.beans.ContractDto;
 
 import lombok.AllArgsConstructor;
@@ -32,12 +33,22 @@ public class Contract {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ctrId;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "STD_ID")
+	@Column(name = "STD_ID")
+	private Integer stdId;
+
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "STD_ID", insertable = false, updatable = false)
 	private Student student;
 
 	@Column(name = "STDY_TYPE")
-	private Integer stdyType;
+	private String stdyType;
+
+	@Column(name = "STDY_YR")
+	private Integer stdyYr;
+
+	@Column(name = "YEAR")
+	private Integer year;
 
 	@Column(name = "CREAT_BY")
 	private String createdBy;
@@ -57,7 +68,8 @@ public class Contract {
 		}
 
 		ContractDto dto = new ContractDto(entity.getCtrId(),
-				(parent ? Student.entityToDto(entity.getStudent(), true) : null), entity.getStdyType());
+				(parent ? Student.entityToDto(entity.getStudent(), true) : null), entity.getStdyType(),
+				entity.getStdyYr(), entity.getYear());
 
 		return dto;
 	}
