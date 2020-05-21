@@ -1,94 +1,109 @@
 <div class="content">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="" />
-  </mat-form-field>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Certificate List
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="" />
+      </mat-form-field>
 
-  <mat-table [dataSource]="dataSource" matSort>
-    <!-- Certificate Id Column -->
-    <ng-container matColumnDef="certId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Certificate Id
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Cert Id">
-        {{ element.certId }}
-      </mat-cell>
-    </ng-container>
+      <mat-table [dataSource]="dataSource" matSort>
+        <!-- Certificate Id Column -->
+        <ng-container matColumnDef="certId">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Certificate Id
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Cert Id">
+            {{ element.certId }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Name
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Name">
-        {{ element.student.firstName + " " + element.student.lastName }}
-      </mat-cell>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Name
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Name">
+            {{ element.student.firstName + " " + element.student.lastName }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Group Column -->
-    <ng-container matColumnDef="group">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Group
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Group">
-        {{ element.student.group.name }}
-      </mat-cell>
-    </ng-container>
+        <!-- Group Column -->
+        <ng-container matColumnDef="group">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Group
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Group">
+            {{ element.student.group.name }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Motivation Column -->
-    <ng-container matColumnDef="purpose">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Purpose
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Purpose">
-        {{ element.purpose }}
-      </mat-cell>
-    </ng-container>
+        <!-- Motivation Column -->
+        <ng-container matColumnDef="purpose">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Purpose
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Purpose">
+            {{ element.purpose }}
+          </mat-cell>
+        </ng-container>
 
-    <!-- Status Column -->
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Status
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Status">
-        <mat-icon *ngIf="element.status == 'PENDING'"> access_time </mat-icon>
-        <mat-icon *ngIf="element.status == 'ACCEPTED'" color="primary">
-          check
-        </mat-icon>
-        <mat-icon *ngIf="element.status == 'REJECTED'" color="warn">
-          close
-        </mat-icon>
-      </mat-cell>
-    </ng-container>
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Status
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Status">
+            <mat-icon *ngIf="element.status == 'PENDING'">
+              access_time
+            </mat-icon>
+            <mat-icon *ngIf="element.status == 'ACCEPTED'" color="primary">
+              check
+            </mat-icon>
+            <mat-icon *ngIf="element.status == 'REJECTED'" color="warn">
+              close
+            </mat-icon>
+          </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="submittedAt">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Submitted At
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Submitted At">
-        {{ datepipe.transform(element.submittedAt, "dd-MM-yyyy hh:mm") }}
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="submittedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Submitted At
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Submitted At">
+            {{ datepipe.transform(element.submittedAt, "dd-MM-yyyy hh:mm") }}
+          </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="approvedAt">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Approved At
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element" data-label="Approved At">
-        {{ datepipe.transform(element.approvedAt, "dd-MM-yyyy hh:mm") }}
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="approvedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Approved At
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Approved At">
+            {{ datepipe.transform(element.approvedAt, "dd-MM-yyyy hh:mm") }}
+          </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-      [className]="row.status == 'PENDING' ? 'row' : 'row row-disabled'"
-      *matRowDef="let row; columns: displayedColumns"
-      (click)="goToCertificate(row)"
-    ></mat-row>
-  </mat-table>
-  <mat-paginator
-    [pageSize]="[10]"
-    [pageSizeOptions]="[5, 10, 20]"
-    [showFirstLastButtons]="true"
-  ></mat-paginator>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row
+          [className]="row.status == 'PENDING' ? 'row' : 'row row-disabled'"
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="goToCertificate(row)"
+        ></mat-row>
+      </mat-table>
+      <mat-paginator
+        [pageSize]="[10]"
+        [pageSizeOptions]="[5, 10, 20]"
+        [showFirstLastButtons]="true"
+      ></mat-paginator>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button routerLink="/secretary">Back</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

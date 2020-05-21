@@ -31,211 +31,37 @@
 <ng-container *ngIf="optionPicked">
   <ng-container *ngIf="option == 'add'">
     <div class="form">
-      <form
-        fxLayout="row"
-        fxLayout.lt-md="column"
-        fxLayoutGap="30px"
-        fxLayoutGap.lt-md="10px"
-        [formGroup]="matForm"
-        (ngSubmit)="addGroup()"
-      >
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Group Name</mat-label>
-          <input matInput type="text" formControlName="name" required />
-
-          <mat-error *ngIf="matForm.controls.name.invalid">
-            You must enter a group name with only upper case letters and digits
-          </mat-error>
-
-          <button
-            mat-button
-            *ngIf="matForm.controls.name.value"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="matForm.controls.name.setValue('')"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Study Year</mat-label>
-          <input matInput type="text" formControlName="stdyYr" required />
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Faculty</mat-label>
-          <mat-select
-            formControlName="faculty"
-            required
-            (selectionChange)="loadDepts($event)"
-          >
-            <mat-option *ngFor="let fac of facultyList" [value]="fac">
-              {{ fac.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.faculty.invalid">
-            You must select a faculty
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Department</mat-label>
-          <mat-select
-            formControlName="department"
-            required
-            (selectionChange)="loadSeries($event)"
-          >
-            <mat-option *ngFor="let dept of departmentList" [value]="dept">
-              {{ dept.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.department.invalid">
-            You must select a department
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Series</mat-label>
-          <mat-select
-            formControlName="series"
-            required
-            (selectionChange)="updtStdyYear($event)"
-          >
-            <mat-option *ngFor="let srs of seriesList" [value]="srs">
-              {{ srs.name + " " + srs.stdyYr }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.series.invalid">
-            You must select a series
-          </mat-error>
-        </mat-form-field>
-
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          fxFlex="10%"
-          class="btn"
-        >
-          Add
-        </button>
-      </form>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="option == 'edit'">
-    <div class="form">
-      <form
-        [formGroup]="matForm"
-        fxLayout="row"
-        fxLayout.lt-md="column"
-        fxLayoutGap="30px"
-        fxLayoutGap.lt-md="10px"
-        (ngSubmit)="showGroup()"
-      >
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Faculty</mat-label>
-          <mat-select
-            formControlName="faculty"
-            required
-            (selectionChange)="loadDepts($event)"
-          >
-            <mat-option *ngFor="let fac of facultyList" [value]="fac">
-              {{ fac.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.faculty.invalid">
-            You must select a faculty.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Department</mat-label>
-          <mat-select
-            formControlName="department"
-            required
-            (selectionChange)="loadSeries($event)"
-          >
-            <mat-option *ngFor="let dept of departmentList" [value]="dept">
-              {{ dept.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.department.invalid">
-            You must select a department.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Series</mat-label>
-          <mat-select
-            formControlName="series"
-            required
-            (selectionChange)="loadGroups($event)"
-          >
-            <mat-option *ngFor="let srs of seriesList" [value]="srs">
-              {{ srs.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.series.invalid">
-            You must select a series.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
-          <mat-label>Group</mat-label>
-          <mat-select formControlName="group" required>
-            <mat-option *ngFor="let grp of groupList" [value]="grp">
-              {{ grp.name }}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="matForm.controls.group.invalid">
-            You must select a group.
-          </mat-error>
-        </mat-form-field>
-
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          fxFlex="10%"
-          class="btn"
-        >
-          Show
-        </button>
-      </form>
-
-      <ng-container *ngIf="showPressed">
-        <form fxLayout="column" [formGroup]="updtForm">
-          <div
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            Create a Group
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form
             fxLayout="row"
             fxLayout.lt-md="column"
             fxLayoutGap="30px"
             fxLayoutGap.lt-md="10px"
+            [formGroup]="matForm"
+            (ngSubmit)="addGroup()"
           >
             <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
               <mat-label>Group Name</mat-label>
               <input matInput type="text" formControlName="name" required />
 
-              <mat-error *ngIf="updtForm.controls.name.invalid">
+              <mat-error *ngIf="matForm.controls.name.invalid">
                 You must enter a group name with only upper case letters and
                 digits
               </mat-error>
 
               <button
                 mat-button
-                *ngIf="updtForm.controls.name.value"
+                *ngIf="matForm.controls.name.value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="updtForm.controls.name.setValue('')"
+                (click)="matForm.controls.name.setValue('')"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -244,53 +70,257 @@
             <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
               <mat-label>Study Year</mat-label>
               <input matInput type="text" formControlName="stdyYr" required />
-
-              <mat-error *ngIf="updtForm.controls.stdyYr.invalid">
-                You must enter a study year with only numbers
-              </mat-error>
-
-              <button
-                mat-button
-                *ngIf="updtForm.controls.stdyYr.value"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="updtForm.controls.stdyYr.setValue('')"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
             </mat-form-field>
-          </div>
 
-          <div
-            fxLayout="row"
-            fxLayout.lt-md="column"
-            fxLayoutGap="30px"
-            fxLayoutGap.lt-md="10px"
-          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Faculty</mat-label>
+              <mat-select
+                formControlName="faculty"
+                required
+                (selectionChange)="loadDepts($event)"
+              >
+                <mat-option *ngFor="let fac of facultyList" [value]="fac">
+                  {{ fac.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.faculty.invalid">
+                You must select a faculty
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Department</mat-label>
+              <mat-select
+                formControlName="department"
+                required
+                (selectionChange)="loadSeries($event)"
+              >
+                <mat-option *ngFor="let dept of departmentList" [value]="dept">
+                  {{ dept.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.department.invalid">
+                You must select a department
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Series</mat-label>
+              <mat-select
+                formControlName="series"
+                required
+                (selectionChange)="updtStdyYear($event)"
+              >
+                <mat-option *ngFor="let srs of seriesList" [value]="srs">
+                  {{ srs.name + " " + srs.stdyYr }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.series.invalid">
+                You must select a series
+              </mat-error>
+            </mat-form-field>
+
             <button
               mat-raised-button
               color="primary"
               type="submit"
               fxFlex="10%"
               class="btn"
-              (click)="updateGroup()"
             >
-              Update
+              Add
             </button>
+          </form>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button routerLink="/admin">Back</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="option == 'edit'">
+    <div class="form">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            Show/Edit a Group
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form
+            [formGroup]="matForm"
+            fxLayout="row"
+            fxLayout.lt-md="column"
+            fxLayoutGap="30px"
+            fxLayoutGap.lt-md="10px"
+            (ngSubmit)="showGroup()"
+          >
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Faculty</mat-label>
+              <mat-select
+                formControlName="faculty"
+                required
+                (selectionChange)="loadDepts($event)"
+              >
+                <mat-option *ngFor="let fac of facultyList" [value]="fac">
+                  {{ fac.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.faculty.invalid">
+                You must select a faculty.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Department</mat-label>
+              <mat-select
+                formControlName="department"
+                required
+                (selectionChange)="loadSeries($event)"
+              >
+                <mat-option *ngFor="let dept of departmentList" [value]="dept">
+                  {{ dept.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.department.invalid">
+                You must select a department.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Series</mat-label>
+              <mat-select
+                formControlName="series"
+                required
+                (selectionChange)="loadGroups($event)"
+              >
+                <mat-option *ngFor="let srs of seriesList" [value]="srs">
+                  {{ srs.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.series.invalid">
+                You must select a series.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+              <mat-label>Group</mat-label>
+              <mat-select formControlName="group" required>
+                <mat-option *ngFor="let grp of groupList" [value]="grp">
+                  {{ grp.name }}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="matForm.controls.group.invalid">
+                You must select a group.
+              </mat-error>
+            </mat-form-field>
+
             <button
               mat-raised-button
-              color="warn"
+              color="primary"
               type="submit"
               fxFlex="10%"
               class="btn"
-              (click)="deleteGroup()"
             >
-              Delete
+              Show
             </button>
-          </div>
-        </form>
-      </ng-container>
+          </form>
+
+          <ng-container *ngIf="showPressed">
+            <form fxLayout="column" [formGroup]="updtForm">
+              <div
+                fxLayout="row"
+                fxLayout.lt-md="column"
+                fxLayoutGap="30px"
+                fxLayoutGap.lt-md="10px"
+              >
+                <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+                  <mat-label>Group Name</mat-label>
+                  <input matInput type="text" formControlName="name" required />
+
+                  <mat-error *ngIf="updtForm.controls.name.invalid">
+                    You must enter a group name with only upper case letters and
+                    digits
+                  </mat-error>
+
+                  <button
+                    mat-button
+                    *ngIf="updtForm.controls.name.value"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    (click)="updtForm.controls.name.setValue('')"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+                  <mat-label>Study Year</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="stdyYr"
+                    required
+                  />
+
+                  <mat-error *ngIf="updtForm.controls.stdyYr.invalid">
+                    You must enter a study year with only numbers
+                  </mat-error>
+
+                  <button
+                    mat-button
+                    *ngIf="updtForm.controls.stdyYr.value"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    (click)="updtForm.controls.stdyYr.setValue('')"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+
+              <div
+                fxLayout="row"
+                fxLayout.lt-md="column"
+                fxLayoutGap="30px"
+                fxLayoutGap.lt-md="10px"
+              >
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  fxFlex="10%"
+                  class="btn"
+                  (click)="updateGroup()"
+                >
+                  Update
+                </button>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  type="submit"
+                  fxFlex="10%"
+                  class="btn"
+                  (click)="deleteGroup()"
+                >
+                  Delete
+                </button>
+              </div>
+            </form>
+          </ng-container>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button routerLink="/admin">Back</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </ng-container>
 </ng-container>
