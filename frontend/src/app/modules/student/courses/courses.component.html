@@ -1,0 +1,84 @@
+<div class="table" *ngIf="courseList != null">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Student Courses</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="" />
+      </mat-form-field>
+
+      <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="crsId">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Course Id
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Course Id">
+            {{ element.crsId }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Name
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Name">
+            {{ element.name }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="teacher">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Teacher
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Teacher">
+            {{ element.teacher }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="creditPoints">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Credit Points
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Credit Points">
+            {{ element.creditPoints }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="semester">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Semester
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Semester">
+            {{ element.semester }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="studyYear">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Study Year
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" data-label="Study Year">
+            {{ element.studyYear }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row
+          class="row"
+          *matRowDef="let row; columns: displayedColumns"
+        ></mat-row>
+      </mat-table>
+
+      <mat-paginator
+        [pageSize]="[10]"
+        [pageSizeOptions]="[5, 10, 20]"
+        [showFirstLastButtons]="true"
+      ></mat-paginator>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button routerLink="/student">Back</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

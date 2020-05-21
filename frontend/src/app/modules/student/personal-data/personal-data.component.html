@@ -1,0 +1,92 @@
+<div class="form" *ngIf="matForm">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Student Personal Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="matForm" fxLayout="column">
+        <div
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutGap="30px"
+          fxLayoutGap.lt-md="10px"
+        >
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Faculty</mat-label>
+            <input matInput type="text" formControlName="faculty" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Department</mat-label>
+            <input matInput type="text" formControlName="dept" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Series</mat-label>
+            <input matInput type="text" formControlName="series" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Group</mat-label>
+            <input matInput type="text" formControlName="group" />
+          </mat-form-field>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutGap="30px"
+          fxLayoutGap.lt-md="10px"
+        >
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" formControlName="firstName" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" formControlName="lastName" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Father Initial</mat-label>
+            <input matInput type="text" formControlName="fthrInit" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Study Year</mat-label>
+            <input matInput type="text" formControlName="stdyYr" />
+          </mat-form-field>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.lt-md="column"
+          fxLayoutGap="30px"
+          fxLayoutGap.lt-md="10px"
+        >
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>CNP</mat-label>
+            <input matInput type="text" formControlName="cnp" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" formControlName="phnNbr" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" formControlName="userName" />
+          </mat-form-field>
+          <mat-form-field fxFlex="50%" fxFlex.lt-md="100%">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" formControlName="email" />
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button routerLink="/student">Back</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

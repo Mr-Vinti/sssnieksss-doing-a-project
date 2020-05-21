@@ -1,0 +1,34 @@
+<ng-container *ngIf="data.loading">
+  <mat-option id="visibleSpinner" class="spinner-auto-complete">
+    <mat-spinner
+      class="tableSpinner"
+      style="margin: auto;"
+      [color]="accent"
+      [diameter]="50"
+    ></mat-spinner>
+  </mat-option>
+</ng-container>
+<ng-container *ngIf="!data.loading" class="modalSearch">
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <div mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </div>
+  <div mat-dialog-actions>
+    <ng-container *ngIf="data.confirmNeeded == undefined">
+      <button mat-button mat-dialog-close (click)="onClick('Close')">
+        Close
+      </button>
+    </ng-container>
+    <ng-container *ngIf="data.confirmNeeded != undefined">
+      <button mat-button mat-dialog-close (click)="onClick('Yes')">Yes</button>
+      <button
+        mat-button
+        mat-dialog-close
+        cdkFocusInitial
+        (click)="onClick('No')"
+      >
+        No
+      </button>
+    </ng-container>
+  </div>
+</ng-container>

@@ -1,1 +1,49 @@
-<p>student works!</p>
+<div
+  class="routing-div"
+  fxLayout="column"
+  fxLayour.lt-md="column"
+  fxLayoutGap="30px"
+  fxLayoutGap.lt-md="10px"
+>
+  <button
+    class="routing-button"
+    mat-raised-button
+    color="primary"
+    fxFlex="50%"
+    fxFlex.lt-md="100%"
+    routerLink="personal-data"
+  >
+    Personal Data
+  </button>
+  <button
+    class="routing-button"
+    mat-raised-button
+    color="primary"
+    fxFlex="50%"
+    fxFlex.lt-md="100%"
+    routerLink="certificates"
+  >
+    Certificates
+  </button>
+  <button
+    class="routing-button"
+    mat-raised-button
+    color="primary"
+    fxFlex="50%"
+    fxFlex.lt-md="100%"
+    routerLink="courses"
+  >
+    Courses
+  </button>
+  <button
+    class="routing-button"
+    mat-raised-button
+    color="primary"
+    fxFlex="50%"
+    fxFlex.lt-md="100%"
+    routerLink="contracts"
+  >
+    Contracts
+  </button>
+</div>
+<router-outlet></router-outlet>

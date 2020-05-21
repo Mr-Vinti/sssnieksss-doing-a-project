@@ -21,6 +21,10 @@ export const environment = {
   getStudents: 'http://localhost:8080/student-portal/admin/get-students',
   getCourses: 'http://localhost:8080/student-portal/admin/get-courses',
   getContracts: 'http://localhost:8080/student-portal/secretary/get-contracts',
+  getPersonalData: 'http://localhost:8080/student-portal/student/get-personal-data',
+  getStudentCourses: 'http://localhost:8080/student-portal/student/get-courses',
+  getStudentContracts: 'http://localhost:8080/student-portal/student/get-contracts',
+  getStudentCertificates: 'http://localhost:8080/student-portal/student/get-certificates',
 
   updateFaculty: 'http://localhost:8080/student-portal/admin/update-faculty',
   updateDepartment: 'http://localhost:8080/student-portal/admin/update-department',
@@ -41,4 +45,5 @@ export const environment = {
   getCertificates: 'http://localhost:8080/student-portal/secretary/get-certificates',
   acceptCertificate: 'http://localhost:8080/student-portal/secretary/accept-certificate',
   rejectCertificate: 'http://localhost:8080/student-portal/secretary/reject-certificate',
+  requestCertificate: 'http://localhost:8080/student-portal/student/request-certificate',
 };
